@@ -1,51 +1,46 @@
-import React from "react";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
+import React from 'react';
+import { connect } from 'react-redux';
+import { setSelectedTab } from '../stores/tab/tabActions';
+
+import {
+  Home,
+  Search,
+  CartTab,
+  Favourite,
+  Notification,
+  MyWallet,
+} from '../screens';
+
+import { Header, TabButton } from '../components';
+
+import { useDrawerProgress } from '@react-navigation/drawer';
 import {
   View,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Image,
-  FlatList
-} from "react-native";
-
-import Animated, { 
-  useSharedValue, 
-  useAnimatedStyle, 
-  withTiming, 
-  Extrapolation
-}  from "react-native-reanimated";
-
-import { LinearGradient } from "expo-linear-gradient";
-
-import { useDrawerProgress } from "@react-navigation/drawer";
-
-import { connect } from "react-redux";
-
-import { setSelectedTab } from "../stores/tab/tabActions";
-
-import {
-  Home,
-  Wallet,
-  Search,
-  CartTab,
-  Favourite,
-  Notification,
-} from ".";
-
-import { Header, TabButton } from "../components";
+  FlatList,
+} from 'react-native';
 
 import {
   COLORS,
+  FONTS,
   SIZES,
   icons,
   constants,
-  dummyData
-}
-from "../constants";
+  dummyData,
+} from '../constants';
 
-
-const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
+const MainLayout = ({ navigation, setSelectedTab, selectedTab }) => {
   const progress = useDrawerProgress();
   const flatListRef = React.useRef();
   //Reanimated Shared Values
@@ -221,36 +216,36 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
         }}
         title={selectedTab.toUpperCase()}
         leftComponent={
-        <TouchableOpacity
-          style={{
-            width: 40,
-            height: 40,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 2,
-            borderColor: COLORS.gray2,
-            borderRadius: SIZES.radius,
-          }}
-          onPress={() => navigation.toggleDrawer()}
-        >
-          <Image source={icons.menu} />
-        </TouchableOpacity>
-      }
+          <TouchableOpacity
+            style={{
+              width: 40,
+              height: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 2,
+              borderColor: COLORS.gray2,
+              borderRadius: SIZES.radius,
+            }}
+            onPress={() => navigation.toggleDrawer()}
+          >
+            <Image source={icons.menu} />
+          </TouchableOpacity>
+        }
         rightComponent={
-        <TouchableOpacity
-          style={{
-            borderRadius: SIZES.radius,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Image
-            source={dummyData?.myProfile?.profile_image}
-            style={{ width: 40, height: 40, borderRadius: SIZES.radius }}
+          <TouchableOpacity
+            style={{
+              borderRadius: SIZES.radius,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              source={dummyData?.myProfile?.profile_image}
+              style={{ width: 40, height: 40, borderRadius: SIZES.radius }}
             />
-        </TouchableOpacity>
-      }
-        />
+          </TouchableOpacity>
+        }
+      />
 
       {/* CONTENT */}
       <View style={{ flex: 1 }}>
@@ -270,12 +265,16 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
                 {item.label == constants.screens.home ? <Home /> : null}
                 {item.label == constants.screens.search ? <Search /> : null}
                 {item.label == constants.screens.cart ? <CartTab /> : null}
-                {item.label == constants.screens.favourite ? <Favourite /> : null}
-                {item.label == constants.screens.notification ? <Notification /> : null}
+                {item.label == constants.screens.favourite ? (
+                  <Favourite />
+                ) : null}
+                {item.label == constants.screens.notification ? (
+                  <Notification />
+                ) : null}
               </View>
             );
           }}
-          />
+        />
       </View>
 
       {/* FOOTER */}
@@ -294,7 +293,7 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
             borderTopLeftRadius: 15,
             borderTopRightRadius: 15,
           }}
-          />
+        />
         {/* TABS */}
         <View
           style={{
@@ -314,7 +313,7 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
             outerContainerStyle={homeFlexStyle}
             innerContainerStyle={homeColorStyle}
             onPress={() => setSelectedTab(constants.screens.home)}
-            />
+          />
           <TabButton
             label={constants.screens.search}
             icon={icons.search}
@@ -322,7 +321,7 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
             outerContainerStyle={searchFlexStyle}
             innerContainerStyle={searchColorStyle}
             onPress={() => setSelectedTab(constants.screens.search)}
-            />
+          />
           <TabButton
             label={constants.screens.cart}
             icon={icons.cart}
@@ -330,7 +329,7 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
             outerContainerStyle={cartFlexStyle}
             innerContainerStyle={cartColorStyle}
             onPress={() => setSelectedTab(constants.screens.cart)}
-            />
+          />
           <TabButton
             label={constants.screens.favourite}
             icon={icons.favourite}
@@ -338,7 +337,7 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
             outerContainerStyle={favouriteFlexStyle}
             innerContainerStyle={favouriteColorStyle}
             onPress={() => setSelectedTab(constants.screens.favourite)}
-            />
+          />
           <TabButton
             label={constants.screens.notification}
             icon={icons.notification}
@@ -346,12 +345,12 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
             outerContainerStyle={notificationFlexStyle}
             innerContainerStyle={notificationColorStyle}
             onPress={() => setSelectedTab(constants.screens.notification)}
-            />
+          />
         </View>
       </View>
     </Animated.View>
   );
-}
+};
 
 function mapStateToProps(state) {
   return { selectedTab: state.tabReducer.selectedTab };

@@ -1,18 +1,20 @@
 import * as tabActionTypes from "./tabActions";
 
 const initialState = {
-  selectedTab: ""
+  selectedTab: ''
 }
 
 const tabReducer = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case tabActionTypes.SET_SELECTED_TAB:
       return {
         ...state,
-        selectedTab: action.payload.selectedTab
-      }
+        selectedTab: payload.selectedTab
+      };
     default:
-      return state
+      return state;
   }
 }
 

@@ -29,7 +29,7 @@ const screens = {
     cart: "Cart",
     favourite: "Favourite",
     notification: "Notification",
-    my_wallet: "My Wallet",
+    my_wallet: "Wallet",
 }
 
 const bottom_tabs = [

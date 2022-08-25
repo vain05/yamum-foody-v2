@@ -11,6 +11,7 @@ import DeliveryInfo from './DeliveryInfo';
 import FilterModal from './FilterModal';
 import IconButton from './IconButton';
 import FilterSection from './FilterSection';
+import TextButton from './TextButton';
 
 export {
   Header,
@@ -26,4 +27,5 @@ export {
   FilterModal,
   FilterSection,
   IconButton,
+  TextButton
 };

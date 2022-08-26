@@ -22,7 +22,15 @@ import {
 
 const OnBoarding = ({navigation}) => {
 
-    const scrollX = new Animated.Value(0)
+    const scrollX = React.useRef(new Animated.Value(0)).current;
+
+    const flatListRef = React.useRef()
+
+    const [currentIndex, setCurrentIndex] = React.useState(0)
+
+    const onViewChangeRef = React.useRef(({viewableItems, changed}) => {
+        setCurrentIndex(viewableItems[0].index)
+    })
 
     const Dots = () => {
 
@@ -113,38 +121,63 @@ const OnBoarding = ({navigation}) => {
                     <Dots />
                 </View>
             {/* Buttons */}
-                <View
-                    style = {{
-                        flex: 'row',
-                        justifyContent: 'space-between',
-                        paddingHorizontal: SIZES.padding,
-                        marginVertical: SIZES.padding
-                    }}
-                >
-                    <TextButton
-                        label = "Skip"
-                        buttonContainerStyle = {{
-                            backgroundColor: null
+                {currentIndex < constants.onboarding_screens.length - 1 &&
+                    <View
+                        style = {{
+                            flex: 'row',
+                            justifyContent: 'space-between',
+                            paddingHorizontal: SIZES.padding,
+                            marginVertical: SIZES.padding
                         }}
+                    >
+                        <TextButton
+                            label = "Skip"
+                            buttonContainerStyle = {{
+                                backgroundColor: null
+                            }}
 
-                        labelStyle = {{
-                            color: COLORS.darkGray2
+                            labelStyle = {{
+                                color: COLORS.darkGray2
+                            }}
+
+                            onPress ={() => navigation.replace("SignIn")}
+                        />
+
+                        <TextButton
+                            label = "Next"
+                            buttonContainerStyle = {{
+                                height: 60,
+                                width: 200,
+                                borderRadius: SIZES.radius
+                            }}
+                            onPress = {() => {
+                                    flatListRef?.current?.scrollToIndex({
+                                        index: currentIndex + 1,
+                                        animated: true
+                                    })
+                            }}
+                        />
+                    </View>
+                }
+
+                {currentIndex == constants.onboarding_screens.length - 1 &&
+                    <View
+                        style = {{
+                            paddingHorizontal: SIZES.padding,
+                            marginVertical: SIZES.padding
                         }}
+                    >
+                        <TextButton
+                            label = "Let's Get Started"
+                            buttonContainerStyle = {{
+                                height: 60,
+                                borderRadius: SIZES.radius
+                            }}
+                            onPress = {() => navigation.replace("SignIn")}
+                        />
+                    </View>
+                }
 
-                        onPress ={() => navigation.replace("SignIn")}
-                    />
-
-                    <TextButton
-                        label = "Next"
-                        buttonContainerStyle = {{
-                            height: 60,
-                            width: 200,
-                            borderRadius: SIZES.radius
-                        }}
-
-                        //onPress
-                    />
-                </View>
             </View>
         )
     }
@@ -158,6 +191,7 @@ const OnBoarding = ({navigation}) => {
         >
             {renderHeaderLogo()}
             <Animated.FlatList
+                ref = {flatListRef}
                 horizontal
                 pagingEnabled
                 data = {constants.onboarding_screens}
@@ -170,6 +204,7 @@ const OnBoarding = ({navigation}) => {
                     ],
                     {useNativeDriver: false}
                 )}
+                onViewableItemsChanged = {onViewChangeRef.current}
                 keyExtractor = {(item) => `${item.id}`}
                 renderItem = {({item,index}) =>{
                     return (

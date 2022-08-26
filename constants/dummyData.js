@@ -28,7 +28,7 @@ const hamburger = {
     description: "Chicken patty hamburger",
     categories: [1, 2],
     price: 15.99,
-    calories: 78,
+    calories: 550,
     isFavourite: true,
     image: require("../assets/dummyData/hamburger.png")
 }
@@ -39,7 +39,7 @@ const hotTacos = {
     description: "Mexican tortilla & tacos",
     categories: [1, 3],
     price: 10.99,
-    calories: 78,
+    calories: 470,
     isFavourite: false,
     image: require("../assets/dummyData/hot_tacos.png")
 }
@@ -50,7 +50,7 @@ const vegBiryani = {
     description: "Indian Vegetable Biryani",
     categories: [1, 2, 3],
     price: 10.99,
-    calories: 78,
+    calories: 280,
     isFavourite: true,
     image: require("../assets/dummyData/veg_biryani.png")
 }
@@ -61,7 +61,7 @@ const wrapSandwich = {
     description: "Grilled vegetables sandwich",
     categories: [1, 2],
     price: 10.99,
-    calories: 78,
+    calories: 400,
     isFavourite: true,
     image: require("../assets/dummyData/wrap_sandwich.png")
 }

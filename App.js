@@ -49,7 +49,7 @@ export default function App() {
           <Stack.Screen name="Home" component={CustomDrawer} />
 
           {/* My Wallet*/}
-          <Stack.Screen name="Wallet" component={Wallet} />
+          <Stack.Screen name="My Wallet" component={Wallet} />
 
           {/* Search */}
           <Stack.Screen name="Search" component={Search} />

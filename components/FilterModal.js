@@ -10,19 +10,19 @@ import {
   Easing,
 } from 'react-native';
 
-import { IconButton, FilterSection } from '.';
+import { IconButton, FilterSection, TwoPointSlider } from '.';
 import Slider from '@react-native-community/slider';
 
 import { constants, icons, FONTS, COLORS, SIZES } from '../constants';
 
 const FilterModal = ({ isVisible, onClose }) => {
   const [showModal, setShowModal] = useState(isVisible);
-  const [distanceVal, setDistanceVal] = useState(0);
+  const [distanceVal, setDistanceVal] = useState([]);
   const animatedVal = useRef(new Animated.Value(0)).current;
   // interpolate Animated Value
   const modalY = animatedVal.interpolate({
     inputRange: [0, 1],
-    outputRange: [SIZES.height, 0],
+    outputRange: [SIZES.totalHeight, 0],
   });
 
   useEffect(() => {
@@ -120,19 +120,15 @@ const FilterModal = ({ isVisible, onClose }) => {
           >
             {/* Distance Section */}
             <FilterSection title='Distance'>
-              <Text style={{ width: 200, textAlign: 'center' }}>
-                {distanceVal}
-              </Text>
-              <Slider
-                style={{ width: 200, height: 40 }}
-                maximumValue={15}
-                minimumValue={0}
-                maximumTrackTintColor={COLORS.lightOrange}
-                minimumTrackTintColor={COLORS.primary}
-                thumbTintColor={COLORS.primary}
-                step={1}
-                onValueChange={(value) => setDistanceVal(value)}
-              />
+              <View style={{ alignItems: 'center' }}>
+                <TwoPointSlider
+                  value={[3, 10]}
+                  min={1}
+                  max={20}
+                  postfix="km"
+                  onValuesChange={(values) => setDistanceVal(values)}
+                />
+              </View>
             </FilterSection>
           </ScrollView>
         </Animated.View>

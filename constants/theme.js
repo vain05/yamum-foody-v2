@@ -1,5 +1,8 @@
 import { Dimensions } from "react-native";
+import * as constants from "expo-constants";
+
 const { width, height } = Dimensions.get("window");
+const totalHeight = height + constants.default.statusBarHeight;
 
 export const COLORS = {
     primary: "#FF6C44", //orange
@@ -50,7 +53,8 @@ export const SIZES = {
 
     // app dimensions
     width,
-    height
+    height,
+    totalHeight
 };
 export const FONTS = {
     largeTitle: { fontFamily: "Poppins-Black", fontSize: SIZES.largeTitle },

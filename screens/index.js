@@ -18,6 +18,8 @@ import Favourite from "./Favourite/Favourite";
 // Notification
 import Notification from "./Notification/Notification";
 
+import AuthLayout from "./Authentication/AuthLayout";
+
 export {
   MainLayout,
   Home,
@@ -25,5 +27,6 @@ export {
   Search,
   CartTab,
   Favourite,
-  Notification
+  Notification,
+  AuthLayout
 }

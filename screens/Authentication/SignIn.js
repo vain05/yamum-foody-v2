@@ -53,11 +53,13 @@ const SignIn = () => {
                             }}
                         > 
                             <Image
-                                source = {icons.correct}
-                            >
+                            style = {{
                                 
-                            </Image>
-                        <View/>
+                            }}
+                            />
+                                
+
+                        </View>
                     }
                 />
                 {/* Save me and I forgor 💀 */}

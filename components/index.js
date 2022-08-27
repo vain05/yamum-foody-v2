@@ -12,6 +12,7 @@ import FilterModal from "./FilterModal";
 import IconButton from "./IconButton";
 import FilterSection from "./FilterSection";
 import TwoPointSlider from "./TwoPointSlider";
+import FormInput from "./FormInput";
 
 export {
   Header,
@@ -27,5 +28,6 @@ export {
   FilterModal,
   IconButton,
   FilterSection,
-  TwoPointSlider
+  TwoPointSlider,
+  FormInput
 };

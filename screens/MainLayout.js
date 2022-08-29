@@ -2,13 +2,13 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
 
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient'
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { setSelectedTab } from '../stores/tab/tabActions';
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { setSelectedTab } from '../stores/tab/tabActions'
 
 import {
   Home,
@@ -17,11 +17,11 @@ import {
   Favourite,
   Notification,
   MyWallet,
-} from '../screens';
+} from '../screens'
 
-import { Header, TabButton } from '../components';
+import { Header, TabButton } from '../components'
 
-import { useDrawerProgress } from '@react-navigation/drawer';
+import { useDrawerProgress } from '@react-navigation/drawer'
 import {
   View,
   Text,
@@ -29,173 +29,216 @@ import {
   TouchableWithoutFeedback,
   Image,
   FlatList,
-} from 'react-native';
+} from 'react-native'
 
 import {
   COLORS,
   FONTS,
   SIZES,
+  GOOGLE_API_KEY,
   icons,
   constants,
   dummyData,
-} from '../constants';
+} from '../constants'
 
-const MainLayout = ({ navigation, setSelectedTab, selectedTab }) => {
-  const progress = useDrawerProgress();
-  const flatListRef = React.useRef();
+import * as Location from 'expo-location'
+
+const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
+  const [currentCoords, setCurrentCoords] = useState({})
+  const [currentLocation, setCurrentLocation] = useState({})
+  const [orderItems, setOrderItems] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+
+      if (status !== 'granted') {
+        return
+      }
+
+      let location = await Location.getCurrentPositionAsync({})
+
+      setCurrentCoords({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      })
+    })()
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied')
+      }
+
+      Location.setGoogleApiKey(GOOGLE_API_KEY)
+
+      let region = await Location.reverseGeocodeAsync({
+        latitude: 10.788229,
+        longitude: 106.6826599,
+      })
+
+      setCurrentLocation(region[0])
+      console.log(region[0])
+    })()
+  }, [])
+
+  const progress = useDrawerProgress()
+  const flatListRef = React.useRef()
   //Reanimated Shared Values
-  const homeTabFlex = useSharedValue(1);
-  const homeTabColor = useSharedValue(COLORS.white);
-  const searchTabFlex = useSharedValue(1);
-  const searchTabColor = useSharedValue(COLORS.white);
-  const cartTabFlex = useSharedValue(1);
-  const cartTabColor = useSharedValue(COLORS.white);
-  const favouriteTabFlex = useSharedValue(1);
-  const favouriteTabColor = useSharedValue(COLORS.white);
-  const notificationTabFlex = useSharedValue(1);
-  const notificationTabColor = useSharedValue(COLORS.white);
+  const homeTabFlex = useSharedValue(1)
+  const homeTabColor = useSharedValue(COLORS.white)
+  const searchTabFlex = useSharedValue(1)
+  const searchTabColor = useSharedValue(COLORS.white)
+  const cartTabFlex = useSharedValue(1)
+  const cartTabColor = useSharedValue(COLORS.white)
+  const favouriteTabFlex = useSharedValue(1)
+  const favouriteTabColor = useSharedValue(COLORS.white)
+  const notificationTabFlex = useSharedValue(1)
+  const notificationTabColor = useSharedValue(COLORS.white)
 
   // Reanimated Animated Style
 
   const homeFlexStyle = useAnimatedStyle(() => {
     return {
       flex: homeTabFlex.value,
-    };
-  });
+    }
+  })
 
   const homeColorStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: homeTabColor.value,
-    };
-  });
+    }
+  })
 
   const searchFlexStyle = useAnimatedStyle(() => {
     return {
       flex: searchTabFlex.value,
-    };
-  });
+    }
+  })
 
   const searchColorStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: searchTabColor.value,
-    };
-  });
+    }
+  })
 
   const cartFlexStyle = useAnimatedStyle(() => {
     return {
       flex: cartTabFlex.value,
-    };
-  });
+    }
+  })
 
   const cartColorStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: cartTabColor.value,
-    };
-  });
+    }
+  })
 
   const favouriteFlexStyle = useAnimatedStyle(() => {
     return {
       flex: favouriteTabFlex.value,
-    };
-  });
+    }
+  })
 
   const favouriteColorStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: favouriteTabColor.value,
-    };
-  });
+    }
+  })
 
   const notificationFlexStyle = useAnimatedStyle(() => {
     return {
       flex: notificationTabFlex.value,
-    };
-  });
+    }
+  })
 
   const notificationColorStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: notificationTabColor.value,
-    };
-  });
+    }
+  })
 
   React.useEffect(() => {
-    setSelectedTab(constants.screens.home);
-  }, []);
+    setSelectedTab(constants.screens.home)
+  }, [])
 
   React.useEffect(() => {
     if (selectedTab == constants.screens.home) {
       flatListRef?.current?.scrollToIndex({
         index: 0,
         animated: false,
-      });
-      homeTabFlex.value = withTiming(4, { duration: 500 });
-      homeTabColor.value = withTiming(COLORS.primary, { duration: 500 });
+      })
+      homeTabFlex.value = withTiming(4, { duration: 500 })
+      homeTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
-      homeTabFlex.value = withTiming(1, { duration: 500 });
-      homeTabColor.value = withTiming(COLORS.white, { duration: 500 });
+      homeTabFlex.value = withTiming(1, { duration: 500 })
+      homeTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
     if (selectedTab == constants.screens.search) {
       flatListRef?.current?.scrollToIndex({
         index: 1,
         animated: false,
-      });
-      searchTabFlex.value = withTiming(4, { duration: 500 });
-      searchTabColor.value = withTiming(COLORS.primary, { duration: 500 });
+      })
+      searchTabFlex.value = withTiming(4, { duration: 500 })
+      searchTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
-      searchTabFlex.value = withTiming(1, { duration: 500 });
-      searchTabColor.value = withTiming(COLORS.white, { duration: 500 });
+      searchTabFlex.value = withTiming(1, { duration: 500 })
+      searchTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
     if (selectedTab == constants.screens.cart) {
       flatListRef?.current?.scrollToIndex({
         index: 2,
         animated: false,
-      });
-      cartTabFlex.value = withTiming(4, { duration: 500 });
-      cartTabColor.value = withTiming(COLORS.primary, { duration: 500 });
+      })
+      cartTabFlex.value = withTiming(4, { duration: 500 })
+      cartTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
-      cartTabFlex.value = withTiming(1, { duration: 500 });
-      cartTabColor.value = withTiming(COLORS.white, { duration: 500 });
+      cartTabFlex.value = withTiming(1, { duration: 500 })
+      cartTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
     if (selectedTab == constants.screens.favourite) {
       flatListRef?.current?.scrollToIndex({
         index: 3,
         animated: false,
-      });
-      favouriteTabFlex.value = withTiming(4, { duration: 500 });
-      favouriteTabColor.value = withTiming(COLORS.primary, { duration: 500 });
+      })
+      favouriteTabFlex.value = withTiming(4, { duration: 500 })
+      favouriteTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
-      favouriteTabFlex.value = withTiming(1, { duration: 500 });
-      favouriteTabColor.value = withTiming(COLORS.white, { duration: 500 });
+      favouriteTabFlex.value = withTiming(1, { duration: 500 })
+      favouriteTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
     if (selectedTab == constants.screens.notification) {
       flatListRef?.current?.scrollToIndex({
         index: 4,
         animated: false,
-      });
-      notificationTabFlex.value = withTiming(4, { duration: 500 });
+      })
+      notificationTabFlex.value = withTiming(4, { duration: 500 })
       notificationTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
-      });
+      })
     } else {
-      notificationTabFlex.value = withTiming(1, { duration: 500 });
-      notificationTabColor.value = withTiming(COLORS.white, { duration: 500 });
+      notificationTabFlex.value = withTiming(1, { duration: 500 })
+      notificationTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
-  }, [selectedTab]);
+  }, [selectedTab])
 
   const scale = Animated.interpolateNode(progress, {
     inputRange: [0, 1],
     outputRange: [1, 0.8],
-  });
+  })
 
   const borderRadius = Animated.interpolateNode(progress, {
     inputRange: [0, 1],
     outputRange: [0, 26],
-  });
+  })
 
   const animatedStyle = {
     borderRadius,
     transform: [{ scale }],
     overflow: 'hidden',
-  };
+  }
 
   return (
     <Animated.View
@@ -262,7 +305,13 @@ const MainLayout = ({ navigation, setSelectedTab, selectedTab }) => {
           renderItem={({ item, index }) => {
             return (
               <View style={{ height: SIZES.height, width: SIZES.width }}>
-                {item.label == constants.screens.home ? <Home /> : null}
+                {item.label == constants.screens.home ? (
+                  <Home
+                    currentLocation={currentLocation}
+                    orderItems={orderItems}
+                    setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                  />
+                ) : null}
                 {item.label == constants.screens.search ? <Search /> : null}
                 {item.label == constants.screens.cart ? <CartTab /> : null}
                 {item.label == constants.screens.favourite ? (
@@ -272,7 +321,7 @@ const MainLayout = ({ navigation, setSelectedTab, selectedTab }) => {
                   <Notification />
                 ) : null}
               </View>
-            );
+            )
           }}
         />
       </View>
@@ -349,19 +398,19 @@ const MainLayout = ({ navigation, setSelectedTab, selectedTab }) => {
         </View>
       </View>
     </Animated.View>
-  );
-};
+  )
+}
 
 function mapStateToProps(state) {
-  return { selectedTab: state.tabReducer.selectedTab };
+  return { selectedTab: state.tabReducer.selectedTab }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     setSelectedTab: (selectedTab) => {
-      return dispatch(setSelectedTab(selectedTab));
+      return dispatch(setSelectedTab(selectedTab))
     },
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)

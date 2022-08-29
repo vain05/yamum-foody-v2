@@ -21,11 +21,12 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
+      "package": "com.vain05.yamum_foody",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDURP4IUqCaxv2YKnPnCSBt1X9CV5cXTiI"
+        }
+      }    },
     "web": {
       "favicon": "./assets/favicon.png"
     }

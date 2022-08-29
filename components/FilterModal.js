@@ -24,12 +24,12 @@ import { constants, icons, FONTS, COLORS, SIZES } from '../constants'
 import { color, ColorSpace } from 'react-native-reanimated'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-const FilterModal = ({ isVisible, onClose }) => {
+const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
   const [showFilterModal, setShowFilterModal] = useState(isVisible)
   const [distanceVal, setDistanceVal] = useState([])
-  const [deliveryTime, setDiliveryTime] = useState('')
-  const [priceRange, setPriceRange] = useState([])
-  const [ratings, SetRatings] = useState('')
+  const [deliveryTime, setDeliveryTime] = useState(60)
+  const [pricingRange, setPricingRange] = useState([])
+  const [ratings, setRatings] = useState('')
   const [tags, setTags] = useState('')
 
   const animatedVal = useRef(new Animated.Value(0)).current
@@ -41,8 +41,15 @@ const FilterModal = ({ isVisible, onClose }) => {
   })
 
   useEffect(() => {
+    let { distanceVal, deliveryTime, pricingRange, ratings, tags } = filterData
+
     setShowFilterModal(isVisible)
-  }, [isVisible])
+    setDistanceVal(distanceVal)
+    setDeliveryTime(deliveryTime)
+    setPricingRange(pricingRange)
+    setRatings(ratings)
+    setTags(tags)
+  }, [isVisible, filterData])
 
   useEffect(() => {
     if (showFilterModal) {
@@ -163,10 +170,10 @@ const FilterModal = ({ isVisible, onClose }) => {
                   return (
                     <TextButton
                       key={`delivery_time-${index}`}
-                      label={item.label}
+                      label={item.toString() + ' Mins'}
                       labelStyle={{
                         color:
-                          item.id == deliveryTime ? COLORS.white : COLORS.gray,
+                          item == deliveryTime ? COLORS.white : COLORS.gray,
                         ...FONTS.body3,
                       }}
                       buttonContainerStyle={{
@@ -176,11 +183,11 @@ const FilterModal = ({ isVisible, onClose }) => {
                         alignItems: 'center',
                         borderRadius: SIZES.base,
                         backgroundColor:
-                          item.id == deliveryTime
+                          item == deliveryTime
                             ? COLORS.primary
                             : COLORS.lightGray2,
                       }}
-                      onPress={() => setDiliveryTime(item.id)}
+                      onPress={() => setDeliveryTime(item)}
                     ></TextButton>
                   )
                 })}
@@ -200,7 +207,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                   max={100}
                   prefix={'$'}
                   postfix={''}
-                  onValuesChange={(values) => setPriceRange(values)}
+                  onValuesChange={(values) => setPricingRange(values)}
                 ></TwoPointSlider>
               </View>
             </FilterSection>
@@ -242,7 +249,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                         tintColor:
                           item.id == ratings ? COLORS.white : COLORS.gray,
                       }}
-                      onPress={() => SetRatings(item.id)}
+                      onPress={() => setRatings(item.id)}
                     />
                   )
                 })}
@@ -301,7 +308,15 @@ const FilterModal = ({ isVisible, onClose }) => {
                 borderRadius: SIZES.base,
                 backgroundColor: COLORS.primary,
               }}
-              onPress={() => console.log('Apply Filter')}
+              onPress={() => {
+                setFilterData({
+                  distanceVal,
+                  deliveryTime,
+                  pricingRange,
+                  ratings,
+                  tags,
+                })
+              }}
             />
           </View>
         </Animated.View>

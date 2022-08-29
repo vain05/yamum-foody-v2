@@ -12,7 +12,7 @@ import {
     SIZES,
     images,
     icons
-} from "../../constants"
+} from "../constants"
 
 const CartQuantityButton = ({containerStyle, iconStyle, quantity, onPress}) => {
     return (

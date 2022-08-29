@@ -20,17 +20,29 @@ import {
 
 import Slider from '@react-native-community/slider'
 
-import { constants, icons, FONTS, COLORS, SIZES } from '../constants'
-import { color, ColorSpace } from 'react-native-reanimated'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import {
+  constants,
+  icons,
+  FONTS,
+  COLORS,
+  SIZES,
+  categoryData,
+} from '../constants'
 
-const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
+const FilterModal = ({
+  isVisible,
+  onClose,
+  filterData,
+  setFilterData,
+  selectedCategoryId,
+  setSelectedCategoryId,
+}) => {
   const [showFilterModal, setShowFilterModal] = useState(isVisible)
   const [distanceVal, setDistanceVal] = useState([])
   const [deliveryTime, setDeliveryTime] = useState(60)
   const [pricingRange, setPricingRange] = useState([])
-  const [ratings, setRatings] = useState('')
-  const [tags, setTags] = useState('')
+  const [ratings, setRatings] = useState(null)
+  const [tags, setTags] = useState(selectedCategoryId)
 
   const animatedVal = useRef(new Animated.Value(0)).current
 
@@ -41,15 +53,21 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
   })
 
   useEffect(() => {
-    let { distanceVal, deliveryTime, pricingRange, ratings, tags } = filterData
-
     setShowFilterModal(isVisible)
+  }, [isVisible])
+
+  useEffect(() => {
+    setTags(selectedCategoryId)
+  }, [selectedCategoryId])
+
+  useEffect(() => {
+    let { distanceVal, deliveryTime, pricingRange, ratings } = filterData
+
     setDistanceVal(distanceVal)
     setDeliveryTime(deliveryTime)
     setPricingRange(pricingRange)
     setRatings(ratings)
-    setTags(tags)
-  }, [isVisible, filterData])
+  }, [])
 
   useEffect(() => {
     if (showFilterModal) {
@@ -65,10 +83,7 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
         duration: 500,
         easing: Easing.ease,
         useNativeDriver: true,
-      }).start(() => {
-        setDistanceVal(0)
-        onClose()
-      })
+      }).start(() => onClose())
     }
   }, [showFilterModal])
 
@@ -144,8 +159,8 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
             <FilterSection title={'Distance'}>
               <View style={{ alignItems: 'center' }}>
                 <TwoPointSlider
-                  values={[3, 10]}
-                  min={1}
+                  values={[0, 10]}
+                  min={0}
                   max={20}
                   postfix={'km'}
                   onValuesChange={(values) => setDistanceVal(values)}
@@ -202,7 +217,7 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
                 }}
               >
                 <TwoPointSlider
-                  values={[10, 50]}
+                  values={[1, 100]}
                   min={1}
                   max={100}
                   prefix={'$'}
@@ -249,7 +264,9 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
                         tintColor:
                           item.id == ratings ? COLORS.white : COLORS.gray,
                       }}
-                      onPress={() => setRatings(item.id)}
+                      onPress={() =>
+                        setRatings(ratings != item.id ? item.id : null)
+                      }
                     />
                   )
                 })}
@@ -262,11 +279,11 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
                   flexWrap: 'wrap',
                 }}
               >
-                {constants.tags.map((item, index) => {
+                {categoryData.map((item, index) => {
                   return (
                     <TextButton
                       key={`Tags-${index}`}
-                      label={item.label}
+                      label={item.name}
                       labelStyle={{
                         color: item.id == tags ? COLORS.white : COLORS.gray,
                         ...FONTS.body3,
@@ -280,7 +297,7 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
                         backgroundColor:
                           item.id == tags ? COLORS.primary : COLORS.lightGray2,
                       }}
-                      onPress={() => setTags(item.id)}
+                      onPress={() => setTags(tags != item.id ? item.id : null)}
                     />
                   )
                 })}
@@ -314,8 +331,9 @@ const FilterModal = ({ isVisible, onClose, filterData, setFilterData }) => {
                   deliveryTime,
                   pricingRange,
                   ratings,
-                  tags,
                 })
+                setSelectedCategoryId(tags)
+                setShowFilterModal(false)
               }}
             />
           </View>

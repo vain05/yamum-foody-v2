@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   FlatList,
 } from 'react-native'
+
+import { getPreciseDistance } from 'geolib'
 
 import { Search, FoodList, FilterModal } from '../../components'
 
@@ -24,28 +26,59 @@ const Home = ({ currentLocation, orderItems, setOrderItems }) => {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const [filterData, setFilterData] = useState({
-    distanceVal: [0, 3],
+    distanceVal: [0, 10],
     deliveryTime: 60,
     pricingRange: [1, 100],
-    ratings: '',
-    tags: '',
+    ratings: null,
   })
 
   const [restaurants, setRestaurants] = useState(restaurantData)
+  const [distances, setDistances] = useState([])
 
-  function handleFilter(categoryId) {
-    let res = restaurantData
+  useEffect(() => {
+    let distances = []
 
-    setSelectedCategoryId(selectedCategoryId != categoryId ? categoryId : null)
-
-    if (categoryId != null) {
-      res = res.filter((restaurant) =>
-        restaurant.categories.includes(categoryId)
+    for (let restaurant of restaurantData) {
+      distances.push(
+        getPreciseDistance(
+          { latitude: 10.788229, longitude: 106.6826599 },
+          restaurant.location
+        ) / 1000
       )
     }
 
+    setDistances(distances)
+  }, [])
+
+  useEffect(() => {
+    let res = restaurantData
+
+    let { distanceVal, deliveryTime, pricingRange, ratings } = filterData
+
+    console.log(filterData)
+    console.log(selectedCategoryId)
+
+    res = res.filter(
+      (restaurant) =>
+        distanceVal[0] <= distances[restaurant.id - 1] &&
+        distances[restaurant.id - 1] <= distanceVal[1] &&
+        restaurant.deliveryTime < deliveryTime &&
+        pricingRange[0] <= restaurant.priceRange &&
+        restaurant.priceRange <= pricingRange[1]
+    )
+
+    if (selectedCategoryId != null) {
+      res = res.filter((restaurant) =>
+        restaurant.categories.includes(selectedCategoryId)
+      )
+    }
+
+    if (ratings != null) {
+      res = res.filter((restaurant) => Math.trunc(restaurant.rating) == ratings)
+    }
+
     setRestaurants(res)
-  }
+  }, [distances, selectedCategoryId, filterData])
 
   function renderDeliveryInfo() {
     return (
@@ -101,7 +134,9 @@ const Home = ({ currentLocation, orderItems, setOrderItems }) => {
                   : COLORS.lightGray2,
             }}
             onPress={() => {
-              handleFilter(selectedCategoryId != item.id ? item.id : null)
+              setSelectedCategoryId(
+                selectedCategoryId != item.id ? item.id : null
+              )
             }}
           >
             <Image
@@ -208,6 +243,10 @@ const Home = ({ currentLocation, orderItems, setOrderItems }) => {
         onClose={() => setShowFilterModal(false)}
         filterData={filterData}
         setFilterData={(filterData) => setFilterData(filterData)}
+        selectedCategoryId={selectedCategoryId}
+        setSelectedCategoryId={(selectedCategoryId) =>
+          setSelectedCategoryId(selectedCategoryId)
+        }
       />
 
       {/* LIST RESTAURANT*/}

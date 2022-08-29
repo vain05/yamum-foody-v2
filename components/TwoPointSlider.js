@@ -17,7 +17,7 @@ const TwoPointSlider = ({
   return (
     <MultiSlider
       values={values}
-      sliderLength={SIZES.width - SIZES.padding * 2 - 20}
+      sliderLength={SIZES.width - SIZES.padding * 2 - 40}
       min={min}
       max={max}
       step={1}

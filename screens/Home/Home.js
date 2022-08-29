@@ -22,7 +22,13 @@ import {
   icons,
 } from '../../constants'
 
-const Home = ({ currentLocation, orderItems, setOrderItems }) => {
+const Home = ({
+  route,
+  navigation,
+  currentLocation,
+  orderItems,
+  setOrderItems,
+}) => {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const [filterData, setFilterData] = useState({
@@ -223,7 +229,9 @@ const Home = ({ currentLocation, orderItems, setOrderItems }) => {
             marginRight: 10,
           }}
         />
-        <Text style={{ ...FONTS.body3 }}>{item.rating}</Text>
+        <Text style={{ ...FONTS.body3 }}>
+          {item.rating} - {distances[item.id - 1]} km from you
+        </Text>
       </View>
     </TouchableOpacity>
   )

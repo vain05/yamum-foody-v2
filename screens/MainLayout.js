@@ -43,10 +43,12 @@ import {
 
 import * as Location from 'expo-location'
 
-const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
+const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
   const [currentCoords, setCurrentCoords] = useState({})
   const [currentLocation, setCurrentLocation] = useState({})
   const [orderItems, setOrderItems] = useState([])
+
+  console.log(route)
 
   useEffect(() => {
     ;(async () => {
@@ -307,6 +309,8 @@ const MainLayout = ({ navigation, selectedTab, setSelectedTab }) => {
               <View style={{ height: SIZES.height, width: SIZES.width }}>
                 {item.label == constants.screens.home ? (
                   <Home
+                    route={route}
+                    navigation={navigation}
                     currentLocation={currentLocation}
                     orderItems={orderItems}
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}

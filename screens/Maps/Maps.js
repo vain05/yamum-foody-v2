@@ -10,13 +10,19 @@ import {
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import {
+  LinearGradient
+} from "react-native-linear-gradient"
+
+import {
   restaurantData,
   COLORS,
   FONTS,
   SIZES,
   icons,
   dummyData,
+  images,
 } from '../../constants'
+import { IconButton } from '../../components'
 
 const styles = StyleSheet.create({
   container: {
@@ -35,6 +41,8 @@ const Maps = ({
   const mapView = React.useRef()
 
   const [region, setRegion] = React.useState(null)
+
+  const [duration, setDuration] = React.useState("30")
 
   React.useEffect(() => {
     let mapRegion = {
@@ -67,13 +75,13 @@ const Maps = ({
     setRegion(newRegion)
     mapView.current.animateToRegion(newRegion, 200)
   }
-
-  function zoomOut() {
+  
+  function focusPostition() {
     let newRegion = {
-      latitude: region.latitude,
-      longitude: region.longitude,
-      latitudeDelta: region.latitudeDelta * 2,
-      longitudeDelta: region.longitudeDelta * 2,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: location.latitudeDelta / 2,
+      longitudeDelta: location.longitudeDelta / 2,
     }
 
     setRegion(newRegion)
@@ -160,13 +168,51 @@ const Maps = ({
     )
   }
 
+  function renderHeaderButton() {
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          bottom: SIZES.height * 0.4,
+          right: SIZES.padding * 1.4,
+          width: 70,
+          height: 520,
+          justifyContent: 'space-between',
+        }}
+      >
+        <IconButton
+          icon = {icons.focus}
+          containerStyle = {{
+            position: 'absolute',
+            top: SIZES.padding*2,
+            left: SIZES.padding,
+            width:60,
+            height:60,
+            borderRadius: SIZES.radius,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: COLORS.gray2,
+            backgroundColor: COLORS.white
+          }}
+          iconStyle = {{
+            width: 30,
+            height: 30,
+            tintColor: COLORS.black
+          }}
+          // onPress = {focusPostition()}
+        />
+      </View>
+    )
+  }
+
   function renderButtons() {
     return (
       <View
         style={{
           position: 'absolute',
-          bottom: SIZES.height * 0.35,
-          right: SIZES.padding * 2,
+          bottom: SIZES.height * 0.4,
+          right: SIZES.padding * 1.4,
           width: 60,
           height: 130,
           justifyContent: 'space-between',
@@ -184,7 +230,13 @@ const Maps = ({
           }}
           onPress={() => zoomIn()}
         >
-          <Text style={{ ...FONTS.body1 }}>+</Text>
+          <Text style={{ 
+            height:28,
+            ...FONTS.body1 
+            }}
+          >
+              +            
+          </Text>
         </TouchableOpacity>
 
         {/* Zoom Out */}
@@ -199,8 +251,119 @@ const Maps = ({
           }}
           onPress={() => zoomOut()}
         >
-          <Text style={{ ...FONTS.body1 }}>-</Text>
+          <Text style={{ 
+            height:29,
+            ...FONTS.body1 
+          }}
+          >
+            -
+          </Text>
         </TouchableOpacity>
+      </View>
+    )
+  }
+
+  function renderInfo() {
+    return(
+      <View
+        style = {{
+          position: 'absolute',
+          bottom: 0,
+          width: "100%"
+        }}
+      >
+        {/* LinearGradient */}
+
+        {/* Info */}
+        <View
+          style = {{
+            padding: SIZES.padding,
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            backgroundColor: COLORS.white,
+            height: 300
+          }}
+        >
+          <View
+            style = {{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              source = {icons.fire}
+              style = {{
+                width: 30,
+                height: 30,
+              }}
+            />
+            <View
+              style = {{
+                marginLeft: SIZES.padding
+              }}
+            >
+              <Text
+                style = {{
+                  color: COLORS.gray,
+                  ...FONTS.body4
+                }}
+              >
+                Delivery time
+              </Text>
+              
+              <Text
+                style = {{
+                  ...FONTS.h3
+                }}
+              >
+                {duration} minutes
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style = {{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: SIZES.padding
+            }}
+          >
+            <Image
+              source = {icons.woman}
+              style = {{
+                width: 30,
+                height: 30,
+              }}
+            />
+            <View
+              style = {{
+                marginLeft: SIZES.padding
+              }}
+            >
+              <Text
+                style = {{
+                  color: COLORS.gray,
+                  ...FONTS.body4
+                }}
+              >
+                Your Address
+              </Text>
+              
+              <Text
+                style = {{
+                  ...FONTS.h4
+                }}
+              >
+                {currentLocation?.streetNumber +
+              ', ' +
+              currentLocation?.street +
+              ', ' +
+              currentLocation?.region}
+              </Text>
+            </View>
+          </View>
+          
+        </View>
       </View>
     )
   }
@@ -208,7 +371,12 @@ const Maps = ({
   return (
     <View style={styles.container}>
       {renderMap()}
+
+      {renderHeaderButton()}
+
       {renderButtons()}
+      
+      {renderInfo()}
     </View>
   )
 }

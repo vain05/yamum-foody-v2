@@ -45,6 +45,7 @@ const user = require('../assets/icons/user.png')
 const woman = require('../assets/icons/woman.png')
 const master_card = require('../assets/icons/mastercard.png')
 const map = require('../assets/icons/map.png')
+const focus = require('../assets/icons/focus.png')
 
 export default {
   coupon,
@@ -59,6 +60,7 @@ export default {
   eye_close,
   favourite,
   fb,
+  focus,
   google,
   burger,
   cherry,

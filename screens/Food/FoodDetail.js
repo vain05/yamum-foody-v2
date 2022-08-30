@@ -221,7 +221,7 @@ const FoodDetail = () => {
             borderRadius: SIZES.radius,
             backgroundColor: COLORS.primary,
           }}
-          label = "Buy Now" label2 = "$15.99"
+          label = "Buy Now"
         </TextButton>
       </View>
     )

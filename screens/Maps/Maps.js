@@ -9,7 +9,14 @@ import {
 } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
-import { restaurantData, COLORS, FONTS, SIZES, icons } from '../../constants'
+import {
+  restaurantData,
+  COLORS,
+  FONTS,
+  SIZES,
+  icons,
+  dummyData,
+} from '../../constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -124,7 +131,7 @@ const Maps = ({
       currentLocation?.location != null ? (
         <Marker coordinate={currentLocation?.location} title={'Your Location'}>
           <Image
-            source={icons.woman}
+            source={dummyData.myProfile.profile_image}
             style={{
               width: 40,
               height: 40,

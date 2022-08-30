@@ -12,6 +12,8 @@ import FilterSection from './FilterSection'
 import TwoPointSlider from './TwoPointSlider'
 import TextButton from './TextButton'
 import TextIconButton from './TextIconButton'
+import CartQuantityButton from './CartQuantityButton'
+import StepperInput from './StepperInput'
 
 export {
   Header,
@@ -28,4 +30,6 @@ export {
   IconButton,
   FilterSection,
   TwoPointSlider,
+  CartQuantityButton,
+  StepperInput
 }

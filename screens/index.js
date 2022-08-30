@@ -1,24 +1,28 @@
-import MainLayout from "./MainLayout";
+import MainLayout from './MainLayout'
 
 // Home
-import Home from "./Home/Home";
+import Home from './Home/Home'
 
 // Wallet
-import Wallet from "./Wallet/Wallet";
+import Wallet from './Wallet/Wallet'
 
 // Search
-import Search from "./Search/Search";
+import Search from './Search/Search'
 
 // Cart
-import CartTab from "./Cart/CartTab";
+import CartTab from './Cart/CartTab'
 
 // Favourite
-import Favourite from "./Favourite/Favourite";
+import Favourite from './Favourite/Favourite'
 
 // Notification
-import Notification from "./Notification/Notification";
+import Notification from './Notification/Notification'
 
-import AuthLayout from "./Authentication/AuthLayout";
+// Auth
+import AuthLayout from './Authentication/AuthLayout'
+
+// Restaurant
+import Restaurant from './Restaurant/Restaurant'
 
 export {
   MainLayout,
@@ -28,5 +32,6 @@ export {
   CartTab,
   Favourite,
   Notification,
-  AuthLayout
+  AuthLayout,
+  Restaurant
 }

@@ -62,6 +62,9 @@ export default function App() {
 
           {/* Notification */}
           <Stack.Screen name="Notification" component={Notification} />
+
+          {/* Restaurant */}
+          <Stack.Screen name="Notification" component={Restaurant} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

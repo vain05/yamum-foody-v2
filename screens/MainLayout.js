@@ -17,6 +17,7 @@ import {
   Favourite,
   Notification,
   MyWallet,
+  Restaurant,
 } from '../screens'
 
 import { Header, TabButton } from '../components'
@@ -47,8 +48,9 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
   const [currentCoords, setCurrentCoords] = useState({})
   const [currentLocation, setCurrentLocation] = useState({})
   const [orderItems, setOrderItems] = useState([])
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null)
 
-  console.log(route)
+  console.log(selectedRestaurant)
 
   useEffect(() => {
     ;(async () => {
@@ -127,9 +129,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
   })
 
   const cartFlexStyle = useAnimatedStyle(() => {
-    return {
-      flex: cartTabFlex.value,
-    }
+    return {}
   })
 
   const cartColorStyle = useAnimatedStyle(() => {
@@ -219,6 +219,12 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
       notificationTabFlex.value = withTiming(4, { duration: 500 })
       notificationTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
+      })
+    }
+    if (selectedTab == constants.screens.restaurant) {
+      flatListRef?.current?.scrollToIndex({
+        index: 5,
+        animated: false,
       })
     } else {
       notificationTabFlex.value = withTiming(1, { duration: 500 })
@@ -311,9 +317,13 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                   <Home
                     route={route}
                     navigation={navigation}
+                    setSelectedTab={setSelectedTab}
                     currentLocation={currentLocation}
                     orderItems={orderItems}
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                    setSelectedRestaurant={(restaurant) =>
+                      setSelectedRestaurant(restaurant)
+                    }
                   />
                 ) : null}
                 {item.label == constants.screens.search ? <Search /> : null}
@@ -323,6 +333,16 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                 ) : null}
                 {item.label == constants.screens.notification ? (
                   <Notification />
+                ) : null}
+                {item.label == constants.screens.restaurant ? (
+                  <Restaurant
+                    route={route}
+                    navigation={navigation}
+                    selectedRestaurant={selectedRestaurant}
+                    orderItems={orderItems}
+                    setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                    setSelectedTab={setSelectedTab}
+                  />
                 ) : null}
               </View>
             )

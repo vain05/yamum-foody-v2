@@ -20,14 +20,17 @@ import {
   COLORS,
   FONTS,
   icons,
+  constants,
 } from '../../constants'
 
 const Home = ({
   route,
   navigation,
   currentLocation,
+  setSelectedTab,
   orderItems,
   setOrderItems,
+  setSelectedRestaurant,
 }) => {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
@@ -171,10 +174,13 @@ const Home = ({
   const renderRestaurant = ({ item }) => (
     <TouchableOpacity
       style={{
-        paddingHorizontal: SIZES.padding * 2,
+        paddingHorizontal: SIZES.padding,
         marginBottom: SIZES.padding * 2,
       }}
-      onPress={() => {}}
+      onPress={() => {
+        setSelectedRestaurant(item)
+        setSelectedTab(constants.screens.restaurant)
+      }}
     >
       {/* Image */}
       <View
@@ -230,7 +236,7 @@ const Home = ({
           }}
         />
         <Text style={{ ...FONTS.body3 }}>
-          {item.rating} - {distances[item.id - 1]} km from you
+          {item.rating} - {distances[item.id - 1]} KM away from you
         </Text>
       </View>
     </TouchableOpacity>

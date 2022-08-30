@@ -13,7 +13,7 @@ import Search from './Search/Search'
 import Maps from './Maps/Maps'
 
 // Cart
-import CartTab from './Cart/CartTab'
+import MyCart from './Cart/MyCart'
 
 // Favourite
 import Favourite from './Favourite/Favourite'
@@ -33,7 +33,7 @@ export {
   Wallet,
   Maps,
   Search,
-  CartTab,
+  MyCart,
   Favourite,
   Notification,
   AuthLayout,

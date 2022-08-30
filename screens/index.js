@@ -10,7 +10,7 @@ import Wallet from './Wallet/Wallet'
 import Search from './Search/Search'
 
 // Cart
-import CartTab from './Cart/CartTab'
+import MyCart from './Cart/MyCart'
 
 // Favourite
 import Favourite from './Favourite/Favourite'
@@ -29,7 +29,7 @@ export {
   Home,
   Wallet,
   Search,
-  CartTab,
+  MyCart,
   Favourite,
   Notification,
   AuthLayout,

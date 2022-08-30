@@ -59,7 +59,8 @@ const TwoPointSlider = ({
               }}
             >
               {prefix}
-              {e.currentValue} {postfix}
+              {e.currentValue}
+              {postfix}
             </Text>
           </View>
         )

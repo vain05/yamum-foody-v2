@@ -159,7 +159,7 @@ const FilterModal = ({
             <FilterSection title={'Distance'}>
               <View style={{ alignItems: 'center' }}>
                 <TwoPointSlider
-                  values={[0, 100]}
+                  values={[0, 99]}
                   min={0}
                   max={100}
                   postfix={'km'}

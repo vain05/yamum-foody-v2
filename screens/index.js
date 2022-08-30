@@ -9,6 +9,9 @@ import Wallet from './Wallet/Wallet'
 // Search
 import Search from './Search/Search'
 
+// Maps
+import Maps from './Maps/Maps'
+
 // Cart
 import CartTab from './Cart/CartTab'
 
@@ -28,10 +31,11 @@ export {
   MainLayout,
   Home,
   Wallet,
+  Maps,
   Search,
   CartTab,
   Favourite,
   Notification,
   AuthLayout,
-  Restaurant
+  Restaurant,
 }

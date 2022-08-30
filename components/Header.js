@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import { FONTS } from '../constants';
 
 const Header = ({
-  navigation,
   containerStyle,
   title,
   leftComponent,

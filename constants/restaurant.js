@@ -70,9 +70,13 @@ export const restaurantData = [
     photo: images.Burger_restaurant_1,
     deliveryTime: 30,
     duration: '25 - 30 min',
+    /* location: { */
+    /*   latitude: 10.756129, */
+    /*   longitude: 106.675715, */
+    /* }, */
     location: {
-      latitude: 10.756129,
-      longitude: 106.675715,
+      latitude: 9.5973721,
+      longitude: 105.9709095,
     },
     courier: {
       avatar: images.avatar_1,
@@ -116,9 +120,13 @@ export const restaurantData = [
     icon: icons.pizza,
     deliveryTime: 40,
     duration: '30 - 40 min',
+    /* location: { */
+    /*   latitude: 10.767756, */
+    /*   longitude: 106.683713, */
+    /* }, */
     location: {
-      latitude: 10.767756,
-      longitude: 106.683713,
+      latitude: 9.5993475,
+      longitude: 105.9623332,
     },
     courier: {
       avatar: images.avatar_2,
@@ -154,7 +162,7 @@ export const restaurantData = [
         name: 'Mediterranean Chopped Salad ',
         photo: images.MediterraneanSalad,
         description:
-          'Finely chopped lettuce, tomatoes, cucumbers with the fresh, and romantic, scent of the Mediterranean',
+          'Finely chopped lettuce, tomatoes, cucumbers of the Mediterranean',
         calories: 100,
         price: 14.99,
       },
@@ -170,9 +178,13 @@ export const restaurantData = [
     icon: icons.hotdog,
     deliveryTime: 20,
     duration: '15 - 20 min',
+    /* location: { */
+    /*   latitude: 10.784426, */
+    /*   longitude: 106.6711439, */
+    /* }, */
     location: {
-      latitude: 10.784426,
-      longitude: 106.6711439,
+      latitude: 9.5806757,
+      longitude: 105.9619576,
     },
     courier: {
       avatar: images.avatar_3,
@@ -199,9 +211,13 @@ export const restaurantData = [
     icon: icons.sushi,
     deliveryTime: 40,
     duration: '30 - 40 min',
+    /* location: { */
+    /*   latitude: 10.7728416, */
+    /*   longitude: 106.6742267, */
+    /* }, */
     location: {
-      latitude: 10.7728416,
-      longitude: 106.6742267,
+      latitude: 9.5773438,
+      longitude: 105.9760254,
     },
     courier: {
       avatar: images.avatar_4,
@@ -228,9 +244,13 @@ export const restaurantData = [
     icon: icons.noodle,
     deliveryTime: 30,
     duration: '20 - 30 min',
+    /* location: { */
+    /*   latitude: 10.761669, */
+    /*   longitude: 106.682977, */
+    /* }, */
     location: {
-      latitude: 10.761669,
-      longitude: 106.682977,
+      latitude: 9.5955109,
+      longitude: 105.9782227,
     },
     courier: {
       avatar: images.avatar_4,
@@ -282,9 +302,13 @@ export const restaurantData = [
     icon: icons.ice_cream,
     deliveryTime: 20,
     duration: '10 - 20 min',
+    /* location: { */
+    /*   latitude: 10.763626, */
+    /*   longitude: 106.669523, */
+    /* }, */
     location: {
-      latitude: 10.763626,
-      longitude: 106.669523,
+      latitude: 9.5866796,
+      longitude: 105.9640959,
     },
     courier: {
       avatar: images.avatar_1,

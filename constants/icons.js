@@ -43,6 +43,8 @@ const salad = require('../assets/icons/salad.png')
 const sushi = require('../assets/icons/sushi.png')
 const user = require('../assets/icons/user.png')
 const woman = require('../assets/icons/woman.png')
+const master_card = require('../assets/icons/mastercard.png')
+const map = require('../assets/icons/map.png')
 
 export default {
   coupon,
@@ -90,4 +92,6 @@ export default {
   sushi,
   user,
   woman,
+  master_card,
+  map,
 }

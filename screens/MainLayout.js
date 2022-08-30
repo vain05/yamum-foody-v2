@@ -10,15 +10,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setSelectedTab } from '../stores/tab/tabActions'
 
-import {
-  Home,
-  Search,
-  CartTab,
-  Favourite,
-  Notification,
-  MyWallet,
-  Restaurant,
-} from '../screens'
+import { Home, Maps, CartTab, Favourite, Notification } from '../screens'
 
 import { Header, TabButton } from '../components'
 
@@ -50,8 +42,6 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
   const [orderItems, setOrderItems] = useState([])
   const [selectedRestaurant, setSelectedRestaurant] = useState(null)
 
-  console.log(selectedRestaurant)
-
   useEffect(() => {
     ;(async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
@@ -78,23 +68,33 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
 
       Location.setGoogleApiKey(GOOGLE_API_KEY)
 
-      let region = await Location.reverseGeocodeAsync({
-        latitude: 10.788229,
-        longitude: 106.6826599,
+      let region = await Location.reverseGeocodeAsync(currentCoords)
+
+      setCurrentLocation({
+        city: region[0].city,
+        country: region[0].country,
+        district: region[0].district,
+        name: region[0].name,
+        region: region[0].region,
+        street: region[0].street,
+        streetNumber: region[0].streetNumber,
+        location: {
+          latitude: currentCoords?.latitude,
+          longitude: currentCoords?.longitude,
+        },
       })
 
-      setCurrentLocation(region[0])
       console.log(region[0])
     })()
-  }, [])
+  }, [currentCoords])
 
   const progress = useDrawerProgress()
   const flatListRef = React.useRef()
   //Reanimated Shared Values
   const homeTabFlex = useSharedValue(1)
   const homeTabColor = useSharedValue(COLORS.white)
-  const searchTabFlex = useSharedValue(1)
-  const searchTabColor = useSharedValue(COLORS.white)
+  const mapsTabFlex = useSharedValue(1)
+  const mapsTabColor = useSharedValue(COLORS.white)
   const cartTabFlex = useSharedValue(1)
   const cartTabColor = useSharedValue(COLORS.white)
   const favouriteTabFlex = useSharedValue(1)
@@ -116,20 +116,22 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
     }
   })
 
-  const searchFlexStyle = useAnimatedStyle(() => {
+  const mapsFlexStyle = useAnimatedStyle(() => {
     return {
-      flex: searchTabFlex.value,
+      flex: mapsTabFlex.value,
     }
   })
 
-  const searchColorStyle = useAnimatedStyle(() => {
+  const mapsColorStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: searchTabColor.value,
+      backgroundColor: mapsTabColor.value,
     }
   })
 
   const cartFlexStyle = useAnimatedStyle(() => {
-    return {}
+    return {
+      flex: cartTabFlex.value,
+    }
   })
 
   const cartColorStyle = useAnimatedStyle(() => {
@@ -172,63 +174,61 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
         index: 0,
         animated: false,
       })
-      homeTabFlex.value = withTiming(4, { duration: 500 })
-      homeTabColor.value = withTiming(COLORS.primary, { duration: 500 })
+      homeTabFlex.value = withTiming(4, { duration: 300 })
+      homeTabColor.value = withTiming(COLORS.primary, { duration: 300 })
     } else {
-      homeTabFlex.value = withTiming(1, { duration: 500 })
-      homeTabColor.value = withTiming(COLORS.white, { duration: 500 })
+      homeTabFlex.value = withTiming(1, { duration: 300 })
+      homeTabColor.value = withTiming(COLORS.white, { duration: 300 })
     }
-    if (selectedTab == constants.screens.search) {
+
+    if (selectedTab == constants.screens.maps) {
       flatListRef?.current?.scrollToIndex({
         index: 1,
         animated: false,
       })
-      searchTabFlex.value = withTiming(4, { duration: 500 })
-      searchTabColor.value = withTiming(COLORS.primary, { duration: 500 })
+      mapsTabFlex.value = withTiming(4, { duration: 300 })
+      mapsTabColor.value = withTiming(COLORS.primary, { duration: 300 })
     } else {
-      searchTabFlex.value = withTiming(1, { duration: 500 })
-      searchTabColor.value = withTiming(COLORS.white, { duration: 500 })
+      mapsTabFlex.value = withTiming(1, { duration: 300 })
+      mapsTabColor.value = withTiming(COLORS.white, { duration: 300 })
     }
+
     if (selectedTab == constants.screens.cart) {
       flatListRef?.current?.scrollToIndex({
         index: 2,
         animated: false,
       })
-      cartTabFlex.value = withTiming(4, { duration: 500 })
-      cartTabColor.value = withTiming(COLORS.primary, { duration: 500 })
+      cartTabFlex.value = withTiming(4, { duration: 300 })
+      cartTabColor.value = withTiming(COLORS.primary, { duration: 300 })
     } else {
-      cartTabFlex.value = withTiming(1, { duration: 500 })
-      cartTabColor.value = withTiming(COLORS.white, { duration: 500 })
+      cartTabFlex.value = withTiming(1, { duration: 300 })
+      cartTabColor.value = withTiming(COLORS.white, { duration: 300 })
     }
+
     if (selectedTab == constants.screens.favourite) {
       flatListRef?.current?.scrollToIndex({
         index: 3,
         animated: false,
       })
-      favouriteTabFlex.value = withTiming(4, { duration: 500 })
-      favouriteTabColor.value = withTiming(COLORS.primary, { duration: 500 })
+      favouriteTabFlex.value = withTiming(4, { duration: 300 })
+      favouriteTabColor.value = withTiming(COLORS.primary, { duration: 300 })
     } else {
-      favouriteTabFlex.value = withTiming(1, { duration: 500 })
-      favouriteTabColor.value = withTiming(COLORS.white, { duration: 500 })
+      favouriteTabFlex.value = withTiming(1, { duration: 300 })
+      favouriteTabColor.value = withTiming(COLORS.white, { duration: 300 })
     }
+
     if (selectedTab == constants.screens.notification) {
       flatListRef?.current?.scrollToIndex({
         index: 4,
         animated: false,
       })
-      notificationTabFlex.value = withTiming(4, { duration: 500 })
+      notificationTabFlex.value = withTiming(4, { duration: 300 })
       notificationTabColor.value = withTiming(COLORS.primary, {
-        duration: 500,
-      })
-    }
-    if (selectedTab == constants.screens.restaurant) {
-      flatListRef?.current?.scrollToIndex({
-        index: 5,
-        animated: false,
+        duration: 300,
       })
     } else {
-      notificationTabFlex.value = withTiming(1, { duration: 500 })
-      notificationTabColor.value = withTiming(COLORS.white, { duration: 500 })
+      notificationTabFlex.value = withTiming(1, { duration: 300 })
+      notificationTabColor.value = withTiming(COLORS.white, { duration: 300 })
     }
   }, [selectedTab])
 
@@ -315,7 +315,6 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
               <View style={{ height: SIZES.height, width: SIZES.width }}>
                 {item.label == constants.screens.home ? (
                   <Home
-                    route={route}
                     navigation={navigation}
                     setSelectedTab={setSelectedTab}
                     currentLocation={currentLocation}
@@ -326,23 +325,21 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                     }
                   />
                 ) : null}
-                {item.label == constants.screens.search ? <Search /> : null}
+                {item.label == constants.screens.maps ? (
+                  <Maps
+                    route={route}
+                    navigation={navigation}
+                    currentLocation={currentLocation}
+                    orderItems={orderItems}
+                    setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                  />
+                ) : null}
                 {item.label == constants.screens.cart ? <CartTab /> : null}
                 {item.label == constants.screens.favourite ? (
                   <Favourite />
                 ) : null}
                 {item.label == constants.screens.notification ? (
                   <Notification />
-                ) : null}
-                {item.label == constants.screens.restaurant ? (
-                  <Restaurant
-                    route={route}
-                    navigation={navigation}
-                    selectedRestaurant={selectedRestaurant}
-                    orderItems={orderItems}
-                    setOrderItems={(orderItems) => setOrderItems(orderItems)}
-                    setSelectedTab={setSelectedTab}
-                  />
                 ) : null}
               </View>
             )
@@ -388,12 +385,12 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
             onPress={() => setSelectedTab(constants.screens.home)}
           />
           <TabButton
-            label={constants.screens.search}
-            icon={icons.search}
-            isFocused={selectedTab == constants.screens.search}
-            outerContainerStyle={searchFlexStyle}
-            innerContainerStyle={searchColorStyle}
-            onPress={() => setSelectedTab(constants.screens.search)}
+            label={constants.screens.maps}
+            icon={icons.map}
+            isFocused={selectedTab == constants.screens.maps}
+            outerContainerStyle={mapsFlexStyle}
+            innerContainerStyle={mapsColorStyle}
+            onPress={() => setSelectedTab(constants.screens.maps)}
           />
           <TabButton
             label={constants.screens.cart}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   SafeAreaView,
@@ -11,29 +11,22 @@ import {
   ScrollView,
 } from 'react-native'
 
-import {
-  icons,
-  restaurantData,
-  COLORS,
-  SIZES,
-  FONTS,
-  constants,
-} from '../../constants'
-import { setSelectedTab } from '../../stores/tab/tabActions'
+import { icons, COLORS, SIZES, FONTS, constants } from '../../constants'
 
-const Restaurant = ({
-  route,
-  navigation,
-  selectedRestaurant,
-  orderItems,
-  setOrderItems,
-  setSelectedTab,
-}) => {
+import { Header, IconButton, CartQuantityButton } from '../../components'
+
+const Restaurant = ({ route, navigation }) => {
   const scrollX = new Animated.Value(0)
+
+  const [orderItems, setOrderItems] = useState(route.params?.orderItems)
+  const [restaurant, setRestaurant] = useState(route.params?.restaurant)
+  const [currentLocation, setCurrenLocation] = useState(
+    route.params?.currentLocation
+  )
 
   function editOrder(action, menuId, name, price) {
     let order = orderItems.slice()
-    let res = order.filter((res) => res.restaurantId == selectedRestaurant?.id)
+    let res = order.filter((res) => res.restaurantId == restaurant?.id)
     let item = []
     if (res.length > 0) {
       item = res[0].items.filter((item) => item.menuId == menuId)
@@ -59,9 +52,7 @@ const Restaurant = ({
           res[0].items = res[0].items.filter((item) => item.menuId != menuId)
 
           if (res[0].items.length <= 0) {
-            order = order.filter(
-              (res) => res.restaurantId != selectedRestaurant?.id
-            )
+            order = order.filter((res) => res.restaurantId != restaurant?.id)
           }
 
           setOrderItems(order)
@@ -70,7 +61,7 @@ const Restaurant = ({
     } else {
       if (action == '+') {
         order.push({
-          restaurantId: selectedRestaurant?.id,
+          restaurantId: restaurant?.id,
           items: [
             {
               name: name,
@@ -87,9 +78,7 @@ const Restaurant = ({
   }
 
   function getOrderQuantity(menuId) {
-    let res = orderItems.filter(
-      (res) => res.restaurantId == selectedRestaurant?.id
-    )
+    let res = orderItems.filter((res) => res.restaurantId == restaurant?.id)
 
     if (res.length <= 0) {
       return 0
@@ -105,9 +94,7 @@ const Restaurant = ({
   }
 
   function getBasketItemCount() {
-    let res = orderItems.filter(
-      (res) => res.restaurantId == selectedRestaurant?.id
-    )
+    let res = orderItems.filter((res) => res.restaurantId == restaurant?.id)
 
     if (res.length <= 0) {
       return 0
@@ -119,9 +106,7 @@ const Restaurant = ({
   }
 
   function sumOrder() {
-    let res = orderItems.filter(
-      (res) => res.restaurantId == selectedRestaurant?.id
-    )
+    let res = orderItems.filter((res) => res.restaurantId == restaurant?.id)
 
     if (res.length <= 0) {
       return 0
@@ -134,66 +119,48 @@ const Restaurant = ({
 
   function renderHeader() {
     return (
-      <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-        <TouchableOpacity
-          style={{
-            width: 50,
-            paddingLeft: SIZES.padding + 6,
-            justifyContent: 'center',
-          }}
-          onPress={() => {
-            setSelectedTab(constants.screens.home)
-          }}
-        >
-          <Image
-            source={icons.back}
-            resizeMode='contain'
-            style={{
-              width: 25,
-              height: 25,
-            }}
-          />
-        </TouchableOpacity>
-
-        {/* Restaurant Name Section */}
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <View
-            style={{
-              height: 50,
-              alignItems: 'center',
+      <Header
+        title={route.params?.restaurant.name}
+        containerStyle={{
+          height: 50,
+          marginHorizontal: SIZES.padding,
+          marginTop: 40,
+        }}
+        leftComponent={
+          <IconButton
+            icon={icons.back}
+            containerStyle={{
+              height: 40,
+              width: 40,
               justifyContent: 'center',
-              paddingHorizontal: SIZES.padding * 3,
+              alignItems: 'center',
+              borderWidth: 1,
               borderRadius: SIZES.radius,
-              backgroundColor: COLORS.lightGray,
+              borderColor: COLORS.gray2,
             }}
-          >
-            <Text style={{ ...FONTS.h3 }}>{selectedRestaurant?.name}</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={{
-            width: 50,
-            paddingRight: SIZES.padding * 2,
-            justifyContent: 'center',
-          }}
-        >
-          <Image
-            source={icons.list}
-            resizeMode='contain'
-            style={{
-              width: 30,
-              height: 30,
+            iconStyle={{
+              width: 20,
+              height: 20,
+              tintColor: COLORS.gray2,
+            }}
+            onPress={() => {
+              route.params?.setOrderItems(orderItems)
+              route.params?.setSelectedTab(constants.screens.home)
+              navigation.navigate('MainLayout')
             }}
           />
-        </TouchableOpacity>
-      </View>
+        }
+        rightComponent={
+          <CartQuantityButton
+            quantity={getBasketItemCount(orderItems)}
+            onPress={() => {
+              route.params.setOrderItems(orderItems)
+              route.params?.setSelectedTab(constants.screens.cart)
+              navigation.navigate('MainLayout')
+            }}
+          />
+        }
+      />
     )
   }
 
@@ -210,7 +177,7 @@ const Restaurant = ({
           { useNativeDriver: false }
         )}
       >
-        {selectedRestaurant?.menu.map((item, index) => (
+        {restaurant?.menu.map((item, index) => (
           <View key={`menu-${index}`} style={{ alignItems: 'center' }}>
             <View style={{ height: SIZES.height * 0.35 }}>
               {/* Food Image */}
@@ -347,7 +314,7 @@ const Restaurant = ({
             height: SIZES.padding,
           }}
         >
-          {selectedRestaurant?.menu.map((item, index) => {
+          {restaurant?.menu.map((item, index) => {
             const opacity = dotPosition.interpolate({
               inputRange: [index - 1, index, index + 1],
               outputRange: [0.3, 1, 0.3],
@@ -400,8 +367,8 @@ const Restaurant = ({
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
+              paddingVertical: SIZES.padding * 0.8,
+              paddingHorizontal: SIZES.padding * 0.8,
               borderBottomColor: COLORS.lightGray2,
               borderBottomWidth: 1,
             }}
@@ -420,10 +387,8 @@ const Restaurant = ({
 
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: SIZES.padding * 2,
-              paddingHorizontal: SIZES.padding * 3,
+              paddingVertical: SIZES.padding * 0.8,
+              paddingHorizontal: SIZES.padding * 0.8,
             }}
           >
             <View style={{ flexDirection: 'row' }}>
@@ -437,22 +402,11 @@ const Restaurant = ({
                 }}
               />
               <Text style={{ marginLeft: SIZES.padding, ...FONTS.h4 }}>
-                Location
-              </Text>
-            </View>
-
-            <View style={{ flexDirection: 'row' }}>
-              <Image
-                source={icons.master_card}
-                resizeMode='contain'
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: COLORS.darkgray,
-                }}
-              />
-              <Text style={{ marginLeft: SIZES.padding, ...FONTS.h4 }}>
-                8888
+                {currentLocation?.streetNumber +
+                  ', ' +
+                  currentLocation?.street +
+                  ', ' +
+                  currentLocation?.region}
               </Text>
             </View>
           </View>
@@ -460,26 +414,25 @@ const Restaurant = ({
           {/* Order Button */}
           <View
             style={{
-              padding: SIZES.padding * 2,
+              padding: SIZES.padding * 0.7,
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 200,
             }}
           >
             <TouchableOpacity
               style={{
-                width: SIZES.width * 0.9,
-                padding: SIZES.padding,
+                width: SIZES.width * 0.8,
+                padding: SIZES.padding * 0.8,
                 backgroundColor:
-                  orderItems.filter(
-                    (res) => res.restaurantId == selectedRestaurant?.id
-                  )?.length > 0
+                  orderItems.filter((res) => res.restaurantId == restaurant?.id)
+                    ?.length > 0
                     ? COLORS.primary
-                    : COLORS.transparentBlack7,
+                    : COLORS.gray2,
                 alignItems: 'center',
                 borderRadius: SIZES.radius,
               }}
               onPress={() => {
+                route.params?.setOrderItems(orderItems)
                 if (
                   orderItems.filter((res) => res.restaurantId == restaurant?.id)
                     ?.length > 0
@@ -502,10 +455,8 @@ const Restaurant = ({
   return (
     <View style={{ flex: 1 }}>
       {renderHeader()}
-      <ScrollView>
-        {renderFoodInfo()}
-        {renderOrder()}
-      </ScrollView>
+      {renderFoodInfo()}
+      {renderOrder()}
     </View>
   )
 }

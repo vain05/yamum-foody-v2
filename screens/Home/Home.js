@@ -24,13 +24,11 @@ import {
 } from '../../constants'
 
 const Home = ({
-  route,
   navigation,
   currentLocation,
   setSelectedTab,
   orderItems,
   setOrderItems,
-  setSelectedRestaurant,
 }) => {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
@@ -64,9 +62,6 @@ const Home = ({
 
     let { distanceVal, deliveryTime, pricingRange, ratings } = filterData
 
-    console.log(filterData)
-    console.log(selectedCategoryId)
-
     res = res.filter(
       (restaurant) =>
         distanceVal[0] <= distances[restaurant.id - 1] &&
@@ -85,6 +80,8 @@ const Home = ({
     if (ratings != null) {
       res = res.filter((restaurant) => Math.trunc(restaurant.rating) == ratings)
     }
+
+    res.map((item, index) => console.log(item.id))
 
     setRestaurants(res)
   }, [distances, selectedCategoryId, filterData])
@@ -178,8 +175,13 @@ const Home = ({
         marginBottom: SIZES.padding * 2,
       }}
       onPress={() => {
-        setSelectedRestaurant(item)
-        setSelectedTab(constants.screens.restaurant)
+        navigation.navigate('Restaurant', {
+          currentLocation: currentLocation,
+          restaurant: item,
+          orderItems: orderItems,
+          setOrderItems: (orderItems) => setOrderItems(orderItems),
+          setSelectedTab: setSelectedTab,
+        })
       }}
     >
       {/* Image */}

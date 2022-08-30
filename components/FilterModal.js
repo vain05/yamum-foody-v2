@@ -159,9 +159,9 @@ const FilterModal = ({
             <FilterSection title={'Distance'}>
               <View style={{ alignItems: 'center' }}>
                 <TwoPointSlider
-                  values={[0, 10]}
+                  values={[0, 100]}
                   min={0}
-                  max={20}
+                  max={100}
                   postfix={'km'}
                   onValuesChange={(values) => setDistanceVal(values)}
                 />

@@ -8,8 +8,6 @@ import {
   FlatList,
 } from 'react-native'
 
-import { getPreciseDistance } from 'geolib'
-
 import { Search, FoodList, FilterModal } from '../../components'
 
 import {
@@ -24,8 +22,10 @@ import {
 } from '../../constants'
 
 const Home = ({
+  route,
   navigation,
   currentLocation,
+  distances,
   setSelectedTab,
   orderItems,
   setOrderItems,
@@ -33,29 +33,13 @@ const Home = ({
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const [filterData, setFilterData] = useState({
-    distanceVal: [0, 10],
+    distanceVal: [0, 100],
     deliveryTime: 60,
     pricingRange: [1, 100],
     ratings: null,
   })
 
   const [restaurants, setRestaurants] = useState(restaurantData)
-  const [distances, setDistances] = useState([])
-
-  useEffect(() => {
-    let distances = []
-
-    for (let restaurant of restaurantData) {
-      distances.push(
-        getPreciseDistance(
-          { latitude: 10.788229, longitude: 106.6826599 },
-          restaurant.location
-        ) / 1000
-      )
-    }
-
-    setDistances(distances)
-  }, [])
 
   useEffect(() => {
     let res = restaurantData
@@ -80,8 +64,6 @@ const Home = ({
     if (ratings != null) {
       res = res.filter((restaurant) => Math.trunc(restaurant.rating) == ratings)
     }
-
-    res.map((item, index) => console.log(item.id))
 
     setRestaurants(res)
   }, [distances, selectedCategoryId, filterData])
@@ -265,7 +247,7 @@ const Home = ({
         }
       />
 
-      {/* LIST RESTAURANT*/}
+      {/* LIST RESTAURANT */}
       <FlatList
         data={restaurants}
         keyExtractor={(item) => `${item.id}`}

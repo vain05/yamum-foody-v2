@@ -200,8 +200,8 @@ const Maps = ({
 
   return (
     <View style={styles.container}>
-      {/* {renderMap()} */}
-      {/* {renderButtons()} */}
+      {renderMap()}
+      {renderButtons()}
     </View>
   )
 }

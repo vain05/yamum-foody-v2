@@ -25,6 +25,7 @@ import {
 } from 'react-native'
 
 import {
+  restaurantData,
   COLORS,
   FONTS,
   SIZES,
@@ -34,6 +35,8 @@ import {
   dummyData,
 } from '../constants'
 
+import { getPreciseDistance } from 'geolib'
+
 import * as Location from 'expo-location'
 
 const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
@@ -41,6 +44,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
   const [currentLocation, setCurrentLocation] = useState({})
   const [orderItems, setOrderItems] = useState([])
   const [selectedRestaurant, setSelectedRestaurant] = useState(null)
+  const [distances, setDistances] = useState([])
 
   useEffect(() => {
     ;(async () => {
@@ -73,7 +77,6 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
       setCurrentLocation({
         city: region[0].city,
         country: region[0].country,
-        district: region[0].district,
         name: region[0].name,
         region: region[0].region,
         street: region[0].street,
@@ -84,9 +87,23 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
         },
       })
 
+      let distances = []
+
+      for (let restaurant of restaurantData) {
+        distances.push(
+          getPreciseDistance(currentCoords, restaurant.location) / 1000
+        )
+      }
+
+      console.log(distances)
+
+      setDistances(distances)
+
       console.log(region[0])
     })()
   }, [currentCoords])
+
+  useEffect(() => {}, [currentCoords])
 
   const progress = useDrawerProgress()
   const flatListRef = React.useRef()
@@ -318,6 +335,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                     navigation={navigation}
                     setSelectedTab={setSelectedTab}
                     currentLocation={currentLocation}
+                    distances={distances}
                     orderItems={orderItems}
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
                     setSelectedRestaurant={(restaurant) =>
@@ -334,7 +352,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
                   />
                 ) : null}
-                {item.label == constants.screens.cart ? <MyCart/> : null}
+                {item.label == constants.screens.cart ? <MyCart /> : null}
                 {item.label == constants.screens.favourite ? (
                   <Favourite />
                 ) : null}

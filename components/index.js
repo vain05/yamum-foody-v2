@@ -14,6 +14,7 @@ import TextButton from './TextButton'
 import TextIconButton from './TextIconButton'
 import CartQuantityButton from './CartQuantityButton'
 import StepperInput from './StepperInput'
+import FooterTotal from './FooterTotal'
 
 export {
   Header,
@@ -31,5 +32,6 @@ export {
   FilterSection,
   TwoPointSlider,
   CartQuantityButton,
-  StepperInput
+  StepperInput,
+  FooterTotal  
 }

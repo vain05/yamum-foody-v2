@@ -13,7 +13,7 @@ import { useFonts } from 'expo-font'
 import {
   Wallet,
   Maps,
-  CartTab,
+  MyCart,
   Favourite,
   Notification,
   Restaurant,
@@ -62,7 +62,7 @@ export default function App() {
           <Stack.Screen name='Maps' component={Maps} />
 
           {/* Cart */}
-          <Stack.Screen name='Cart' component={CartTab} />
+          <Stack.Screen name='Cart' component={MyCart} />
 
           {/* Favourite */}
           <Stack.Screen name='Favourite' component={Favourite} />

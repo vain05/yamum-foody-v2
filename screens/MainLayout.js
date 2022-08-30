@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setSelectedTab } from '../stores/tab/tabActions'
 
-import { Home, Maps, CartTab, Favourite, Notification } from '../screens'
+import { Home, Maps, MyCart, Favourite, Notification } from '../screens'
 
 import { Header, TabButton } from '../components'
 
@@ -334,7 +334,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
                   />
                 ) : null}
-                {item.label == constants.screens.cart ? <CartTab /> : null}
+                {item.label == constants.screens.cart ? <MyCart/> : null}
                 {item.label == constants.screens.favourite ? (
                   <Favourite />
                 ) : null}

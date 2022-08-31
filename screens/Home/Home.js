@@ -65,6 +65,8 @@ const Home = ({
       res = res.filter((restaurant) => Math.trunc(restaurant.rating) == ratings)
     }
 
+    if (res.length == 0) res = restaurantData
+
     setRestaurants(res)
   }, [distances, selectedCategoryId, filterData])
 
@@ -154,7 +156,7 @@ const Home = ({
     <TouchableOpacity
       style={{
         paddingHorizontal: SIZES.padding,
-        marginBottom: SIZES.padding * 2,
+        marginVertical: SIZES.padding,
       }}
       onPress={() => {
         navigation.navigate('Restaurant', {
@@ -169,7 +171,7 @@ const Home = ({
       {/* Image */}
       <View
         style={{
-          marginBottom: SIZES.padding,
+          marginBottom: 5,
         }}
       >
         <Image
@@ -205,7 +207,6 @@ const Home = ({
 
       <View
         style={{
-          marginTop: SIZES.padding,
           flexDirection: 'row',
         }}
       >

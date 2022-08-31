@@ -45,6 +45,9 @@ const user = require('../assets/icons/user.png')
 const woman = require('../assets/icons/woman.png')
 const master_card = require('../assets/icons/mastercard.png')
 const map = require('../assets/icons/map.png')
+const delete_icon = require('../assets/icons/delete.png')
+const plus = require('../assets/icons/plus.png')
+const minus = require('../assets/icons/minus-sign.png')
 
 export default {
   coupon,
@@ -94,4 +97,7 @@ export default {
   woman,
   master_card,
   map,
+  delete_icon,
+  plus,
+  minus
 }

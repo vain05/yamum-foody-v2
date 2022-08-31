@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native'
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 import {
@@ -25,13 +18,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const Maps = ({
-  route,
-  navigation,
-  currentLocation,
-  orderItems,
-  setOrderItems,
-}) => {
+const Maps = ({ navigation, currentLocation, orderItems, setOrderItems }) => {
   const mapView = React.useRef()
 
   const [region, setRegion] = React.useState(null)

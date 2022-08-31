@@ -47,6 +47,10 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
   const [distances, setDistances] = useState([])
 
   useEffect(() => {
+    setOrderItems(orderItems)
+  }, [orderItems])
+
+  useEffect(() => {
     ;(async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
 
@@ -56,10 +60,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
 
       let location = await Location.getCurrentPositionAsync({})
 
-      setCurrentCoords({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      })
+      setCurrentCoords(location.coords)
     })()
   }, [])
 
@@ -345,14 +346,21 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                 ) : null}
                 {item.label == constants.screens.maps ? (
                   <Maps
-                    route={route}
                     navigation={navigation}
                     currentLocation={currentLocation}
                     orderItems={orderItems}
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
                   />
                 ) : null}
-                {item.label == constants.screens.cart ? <MyCart /> : null}
+                {item.label == constants.screens.cart ? (
+                  <MyCart
+                    navigation={navigation}
+                    currentLocation={currentLocation}
+                    distances={distances}
+                    orderItems={orderItems}
+                    setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                  />
+                ) : null}
                 {item.label == constants.screens.favourite ? (
                   <Favourite />
                 ) : null}

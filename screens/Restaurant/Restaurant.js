@@ -24,7 +24,7 @@ const Restaurant = ({ route, navigation }) => {
     route.params?.currentLocation
   )
 
-  function editOrder(action, menuId, name, price) {
+  function editOrder(action, menuIndex, menuId, name, price) {
     let order = orderItems.slice()
     let res = order.filter((res) => res.restaurantId == restaurant?.id)
     let item = []
@@ -37,9 +37,11 @@ const Restaurant = ({ route, navigation }) => {
         } else {
           res[0].items.push({
             name: name,
+            menuIndex: menuIndex,
             menuId: menuId,
             quant: 1,
             price: price,
+            restaurantId: restaurant?.id,
           })
         }
 
@@ -65,9 +67,11 @@ const Restaurant = ({ route, navigation }) => {
           items: [
             {
               name: name,
+              menuIndex: menuIndex,
               menuId: menuId,
               quant: 1,
               price: price,
+              restaurantId: restaurant?.id,
             },
           ],
         })
@@ -211,7 +215,13 @@ const Restaurant = ({ route, navigation }) => {
                     borderBottomLeftRadius: 25,
                   }}
                   onPress={() =>
-                    editOrder('-', item.menuId, item.name, item.price)
+                    editOrder(
+                      '-',
+                      item.menuIndex,
+                      item.menuId,
+                      item.name,
+                      item.price
+                    )
                   }
                 >
                   <Text style={{ ...FONTS.body1 }}>-</Text>
@@ -240,7 +250,13 @@ const Restaurant = ({ route, navigation }) => {
                     borderBottomRightRadius: 25,
                   }}
                   onPress={() =>
-                    editOrder('+', item.menuId, item.name, item.price)
+                    editOrder(
+                      '+',
+                      item.menuIndex,
+                      item.menuId,
+                      item.name,
+                      item.price
+                    )
                   }
                 >
                   <Text style={{ ...FONTS.body1 }}>+</Text>
@@ -377,7 +393,7 @@ const Restaurant = ({ route, navigation }) => {
               {getBasketItemCount()} items in Cart
             </Text>
             <Text style={{ ...FONTS.h3 }}>
-              ₫
+              $
               {sumOrder()
                 .toPrecision(4)
                 .toString()

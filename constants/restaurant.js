@@ -84,6 +84,7 @@ export const restaurantData = [
     },
     menu: [
       {
+        menuIndex: 0,
         menuId: 1,
         name: 'Beef Burger',
         photo: images.Beef_Burger,
@@ -93,6 +94,7 @@ export const restaurantData = [
         price: 19.99,
       },
       {
+        menuIndex: 1,
         menuId: 2,
         name: 'Chicken Buger',
         photo: images.Chicken_Burger,
@@ -101,6 +103,7 @@ export const restaurantData = [
         price: 14.99,
       },
       {
+        menuIndex: 2,
         menuId: 3,
         name: 'Caesar Salad',
         photo: images.Caesar_Salad,
@@ -134,6 +137,7 @@ export const restaurantData = [
     },
     menu: [
       {
+        menuIndex: 0,
         menuId: 4,
         name: 'Cheese Pizza',
         photo: images.ChessePizza,
@@ -142,6 +146,7 @@ export const restaurantData = [
         price: 29.99,
       },
       {
+        menuIndex: 1,
         menuId: 5,
         name: 'Pineapple Pizza',
         photo: images.PineapplePizza,
@@ -150,6 +155,7 @@ export const restaurantData = [
         price: 24.99,
       },
       {
+        menuIndex: 2,
         menuId: 6,
         name: 'Spaghetti',
         photo: images.Spaghetti,
@@ -158,6 +164,7 @@ export const restaurantData = [
         price: 19.99,
       },
       {
+        menuIndex: 3,
         menuId: 7,
         name: 'Mediterranean Chopped Salad ',
         photo: images.MediterraneanSalad,
@@ -192,6 +199,7 @@ export const restaurantData = [
     },
     menu: [
       {
+        menuIndex: 0,
         menuId: 8,
         name: 'Chicago Style Hot Dog',
         photo: images.Hotdog,
@@ -225,6 +233,7 @@ export const restaurantData = [
     },
     menu: [
       {
+        menuIndex: 0,
         menuId: 9,
         name: 'Sushi sets',
         photo: images.Sushi,
@@ -258,6 +267,7 @@ export const restaurantData = [
     },
     menu: [
       {
+        menuIndex: 0,
         menuId: 10,
         name: 'Phở Tái',
         photo: images.PhoTai,
@@ -266,6 +276,7 @@ export const restaurantData = [
         price: 19.99,
       },
       {
+        menuIndex: 1,
         menuId: 11,
         name: 'Phở Tái Nạm',
         photo: images.TaiNam,
@@ -274,6 +285,7 @@ export const restaurantData = [
         price: 19.99,
       },
       {
+        menuIndex: 2,
         menuId: 12,
         name: 'Bún bò Huế',
         photo: images.BunBo,
@@ -283,6 +295,7 @@ export const restaurantData = [
         price: 19.99,
       },
       {
+        menuIndex: 3,
         menuId: 13,
         name: 'Bánh Canh Hải Sản',
         photo: images.BanhCanh,
@@ -316,6 +329,7 @@ export const restaurantData = [
     },
     menu: [
       {
+        menuIndex: 0,
         menuId: 12,
         name: 'Vanilla Ice Cream',
         photo: images.Vanilla,
@@ -324,6 +338,7 @@ export const restaurantData = [
         price: 4.99,
       },
       {
+        menuIndex: 1,
         menuId: 13,
         name: 'Chocolate Ice Cream',
         photo: images.Chocolate,
@@ -333,6 +348,7 @@ export const restaurantData = [
         price: 5.99,
       },
       {
+        menuIndex: 2,
         menuId: 14,
         name: 'Banh Pía',
         photo: images.BanhPia,

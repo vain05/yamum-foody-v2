@@ -309,10 +309,9 @@ const FilterModal = ({
           <View
             style={{
               position: 'absolute',
-              bottom: 30,
+              bottom: 15,
               left: 0,
               right: 0,
-              height: 110,
               paddingHorizontal: SIZES.padding,
               paddingVertical: SIZES.radius,
               backgroundColor: COLORS.white,

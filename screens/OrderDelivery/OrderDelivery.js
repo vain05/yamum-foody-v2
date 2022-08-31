@@ -20,13 +20,6 @@ import { color } from 'react-native-reanimated'
 const OrderDelivery = ({ route, navigation }) => {
   const mapView = React.useRef()
 
-  const [courierLocation, setCourierLocation] = useState({
-    latitude: 9.6096156,
-    longitude: 105.973507,
-    /* latitude: 10.7701381, */
-    /* longitude: 106.6832578, */
-  })
-
   const [restaurantId, setRestaurantId] = useState(route.params?.restaurant)
   const [currentLocation, setCurrentLocation] = useState(
     route.params?.currentLocation
@@ -38,7 +31,7 @@ const OrderDelivery = ({ route, navigation }) => {
   const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
-    let fromLoc = courierLocation
+    let fromLoc = restaurantData[restaurantId].courier.location
     let toLoc = restaurantData[restaurantId].location
 
     let mapRegion = {
@@ -138,7 +131,7 @@ const OrderDelivery = ({ route, navigation }) => {
   function renderMap() {
     const courierRestaurantDirection = () => (
       <MapViewDirections
-        origin={courierLocation}
+        origin={restaurantData[restaurantId].courier.location}
         destination={restaurantData[restaurantId].location}
         apikey={GOOGLE_API_KEY}
         strokeWidth={5}
@@ -226,7 +219,10 @@ const OrderDelivery = ({ route, navigation }) => {
     )
 
     const courierMarker = () => (
-      <Marker coordinate={courierLocation} title={'Courier'}>
+      <Marker
+        coordinate={restaurantData[restaurantId].courier.location}
+        title={'Courier'}
+      >
         <Image
           source={icons.delivery_man}
           style={{

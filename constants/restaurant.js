@@ -70,17 +70,21 @@ export const restaurantData = [
     photo: images.Burger_restaurant_1,
     deliveryTime: 30,
     duration: '25 - 30 min',
-    /* location: { */
-    /*   latitude: 10.756129, */
-    /*   longitude: 106.675715, */
-    /* }, */
     location: {
-      latitude: 9.5973721,
-      longitude: 105.9709095,
+      latitude: 10.756129,
+      longitude: 106.675715,
     },
+    /* location: { */
+    /*   latitude: 9.5973721, */
+    /*   longitude: 105.9709095, */
+    /* }, */
     courier: {
       avatar: images.avatar_1,
       name: 'Trương Nhật Ánh',
+      location: {
+        latitude: 10.7579439,
+        longitude: 106.6744085,
+      },
     },
     menu: [
       {
@@ -123,17 +127,21 @@ export const restaurantData = [
     icon: icons.pizza,
     deliveryTime: 40,
     duration: '30 - 40 min',
-    /* location: { */
-    /*   latitude: 10.767756, */
-    /*   longitude: 106.683713, */
-    /* }, */
     location: {
-      latitude: 9.5993475,
-      longitude: 105.9623332,
+      latitude: 10.767756,
+      longitude: 106.683713,
     },
+    /* location: { */
+    /*   latitude: 9.5993475, */
+    /*   longitude: 105.9623332, */
+    /* }, */
     courier: {
       avatar: images.avatar_2,
       name: 'Nguyễn Phong Phú',
+      location: {
+        latitude: 10.7692071,
+        longitude: 106.6869874,
+      },
     },
     menu: [
       {
@@ -185,17 +193,21 @@ export const restaurantData = [
     icon: icons.hotdog,
     deliveryTime: 20,
     duration: '15 - 20 min',
-    /* location: { */
-    /*   latitude: 10.784426, */
-    /*   longitude: 106.6711439, */
-    /* }, */
     location: {
-      latitude: 9.5806757,
-      longitude: 105.9619576,
+      latitude: 10.784426,
+      longitude: 106.6711439,
     },
+    /* location: { */
+    /*   latitude: 9.5806757, */
+    /*   longitude: 105.9619576, */
+    /* }, */
     courier: {
       avatar: images.avatar_3,
       name: 'Nguyễn Đăng Khoa',
+      location: {
+        latitude: 10.7859816,
+        longitude: 106.6660442,
+      },
     },
     menu: [
       {
@@ -219,17 +231,21 @@ export const restaurantData = [
     icon: icons.sushi,
     deliveryTime: 40,
     duration: '30 - 40 min',
-    /* location: { */
-    /*   latitude: 10.7728416, */
-    /*   longitude: 106.6742267, */
-    /* }, */
     location: {
-      latitude: 9.5773438,
-      longitude: 105.9760254,
+      latitude: 10.7728416,
+      longitude: 106.6742267,
     },
+    /* location: { */
+    /*   latitude: 9.5773438, */
+    /*   longitude: 105.9760254, */
+    /* }, */
     courier: {
       avatar: images.avatar_4,
       name: 'Lâm Hiền Toàn',
+      location: {
+        latitude: 10.7719723,
+        longitude: 106.6722217,
+      },
     },
     menu: [
       {
@@ -253,17 +269,21 @@ export const restaurantData = [
     icon: icons.noodle,
     deliveryTime: 30,
     duration: '20 - 30 min',
-    /* location: { */
-    /*   latitude: 10.761669, */
-    /*   longitude: 106.682977, */
-    /* }, */
     location: {
-      latitude: 9.5955109,
-      longitude: 105.9782227,
+      latitude: 10.761669,
+      longitude: 106.682977,
     },
+    /* location: { */
+    /*   latitude: 9.5955109, */
+    /*   longitude: 105.9782227, */
+    /* }, */
     courier: {
       avatar: images.avatar_4,
       name: 'Quang Thế Cường',
+      location: {
+        latitude: 10.7622573,
+        longitude: 106.6825783,
+      },
     },
     menu: [
       {
@@ -315,17 +335,21 @@ export const restaurantData = [
     icon: icons.ice_cream,
     deliveryTime: 20,
     duration: '10 - 20 min',
-    /* location: { */
-    /*   latitude: 10.763626, */
-    /*   longitude: 106.669523, */
-    /* }, */
     location: {
-      latitude: 9.5866796,
-      longitude: 105.9640959,
+      latitude: 10.763626,
+      longitude: 106.669523,
     },
+    /* location: { */
+    /*   latitude: 9.5866796, */
+    /*   longitude: 105.9640959, */
+    /* }, */
     courier: {
       avatar: images.avatar_1,
       name: 'Hoàng Thị Minh Khuê',
+      location: {
+        latitude: 10.7626871,
+        longitude: 106.6741047,
+      },
     },
     menu: [
       {

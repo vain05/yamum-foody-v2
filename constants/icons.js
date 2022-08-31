@@ -62,6 +62,7 @@ export default {
   eye_close,
   favourite,
   fb,
+  focus,
   google,
   burger,
   cherry,

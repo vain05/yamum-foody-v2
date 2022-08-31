@@ -27,6 +27,9 @@ import AuthLayout from './Authentication/AuthLayout'
 // Restaurant
 import Restaurant from './Restaurant/Restaurant'
 
+// Order Delivery
+import OrderDelivery from './OrderDelivery/OrderDelivery'
+
 export {
   MainLayout,
   Home,
@@ -38,4 +41,5 @@ export {
   Notification,
   AuthLayout,
   Restaurant,
+  OrderDelivery,
 }

@@ -10,14 +10,7 @@ import CustomDrawer from './navigation/DrawerNavigation/CustomDrawer'
 
 import { useFonts } from 'expo-font'
 
-import {
-  Wallet,
-  Maps,
-  MyCart,
-  Favourite,
-  Notification,
-  Restaurant,
-} from './screens'
+import { Restaurant, OrderDelivery } from './screens'
 
 import { createStore, applyMiddleware } from 'redux'
 
@@ -55,23 +48,11 @@ export default function App() {
           {/* Home */}
           <Stack.Screen name='Home' component={CustomDrawer} />
 
-          {/* My Wallet*/}
-          <Stack.Screen name='My Wallet' component={Wallet} />
-
-          {/* Maps */}
-          <Stack.Screen name='Maps' component={Maps} />
-
-          {/* Cart */}
-          <Stack.Screen name='Cart' component={MyCart} />
-
-          {/* Favourite */}
-          <Stack.Screen name='Favourite' component={Favourite} />
-
-          {/* Notification */}
-          <Stack.Screen name='Notification' component={Notification} />
-
           {/* Restaurant */}
           <Stack.Screen name='Restaurant' component={Restaurant} />
+
+          {/* Order Delivery */}
+          <Stack.Screen name='OrderDelivery' component={OrderDelivery} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

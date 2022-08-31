@@ -10,13 +10,7 @@ import {
 
 import { SwipeListView } from 'react-native-swipe-list-view'
 
-import {
-  Header,
-  IconButton,
-  CartQuantityButton,
-  StepperInput,
-  FooterTotal,
-} from '../../components'
+import { Header, IconButton, StepperInput } from '../../components'
 
 import { COLORS, FONTS, SIZES, icons, restaurantData } from '../../constants'
 
@@ -26,6 +20,7 @@ const MyCart = ({
   distances,
   orderItems,
   setOrderItems,
+  setSelectedTab,
 }) => {
   useEffect(() => {
     setOrderItems(orderItems)
@@ -298,6 +293,13 @@ const MyCart = ({
               backgroundColor: COLORS.white,
               alignItems: 'center',
               justifyContent: 'center',
+            }}
+            onPress={() => {
+              navigation.navigate('OrderDelivery', {
+                restaurant: restaurant,
+                currentLocation: currentLocation,
+                setSelectedTab: setSelectedTab
+              })
             }}
           >
             <Text style={{ color: COLORS.primary, ...FONTS.h2 }}>Order</Text>

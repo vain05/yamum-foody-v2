@@ -15,19 +15,11 @@ import { Home, Maps, MyCart, Favourite, Notification } from '../screens'
 import { Header, TabButton } from '../components'
 
 import { useDrawerProgress } from '@react-navigation/drawer'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Image,
-  FlatList,
-} from 'react-native'
+import { View, TouchableOpacity, Image, FlatList } from 'react-native'
 
 import {
   restaurantData,
   COLORS,
-  FONTS,
   SIZES,
   GOOGLE_API_KEY,
   icons,
@@ -359,6 +351,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                     distances={distances}
                     orderItems={orderItems}
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                    setSelectedTab={selectedTab}
                   />
                 ) : null}
                 {item.label == constants.screens.favourite ? (

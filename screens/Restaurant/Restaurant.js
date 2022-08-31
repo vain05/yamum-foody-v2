@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import {
-  StyleSheet,
-  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
   Image,
   Animated,
   ToastAndroid,
-  ScrollView,
 } from 'react-native'
 
 import { icons, COLORS, SIZES, FONTS, constants } from '../../constants'
@@ -453,6 +450,11 @@ const Restaurant = ({ route, navigation }) => {
                   orderItems.filter((res) => res.restaurantId == restaurant?.id)
                     ?.length > 0
                 ) {
+                  navigation.navigate('OrderDelivery', {
+                    restaurant: restaurant,
+                    currentLocation: currentLocation,
+                    setSelectedTab: route.params.setSelectedTab,
+                  })
                 } else
                   ToastAndroid.show(
                     'You must order at least one item',

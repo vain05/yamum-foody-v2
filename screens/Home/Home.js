@@ -8,17 +8,15 @@ import {
   FlatList,
 } from 'react-native'
 
-import { Search, FoodList, FilterModal } from '../../components'
+import { Search, FilterModal } from '../../components'
 
 import {
   categoryData,
   restaurantData,
-  dummyData,
   SIZES,
   COLORS,
   FONTS,
   icons,
-  constants,
 } from '../../constants'
 
 const Home = ({

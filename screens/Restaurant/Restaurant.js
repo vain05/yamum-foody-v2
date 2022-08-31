@@ -146,7 +146,7 @@ const Restaurant = ({ route, navigation }) => {
             }}
             onPress={() => {
               route.params?.setOrderItems(orderItems)
-              route.params?.setSelectedTab(constants.screens.home)
+              route.params?.setSelectedTab(route.params?.prevScreen)
               navigation.navigate('MainLayout')
             }}
           />

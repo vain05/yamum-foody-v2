@@ -342,6 +342,7 @@ const MainLayout = ({ route, navigation, selectedTab, setSelectedTab }) => {
                     currentLocation={currentLocation}
                     orderItems={orderItems}
                     setOrderItems={(orderItems) => setOrderItems(orderItems)}
+                    setSelectedTab={setSelectedTab}
                   />
                 ) : null}
                 {item.label == constants.screens.cart ? (

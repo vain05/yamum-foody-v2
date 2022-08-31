@@ -18,7 +18,13 @@ const styles = StyleSheet.create({
   },
 })
 
-const Maps = ({ navigation, currentLocation, orderItems, setOrderItems }) => {
+const Maps = ({
+  navigation,
+  currentLocation,
+  orderItems,
+  setOrderItems,
+  setSelectedTab,
+}) => {
   const mapView = React.useRef()
 
   const [region, setRegion] = React.useState(null)
@@ -74,12 +80,14 @@ const Maps = ({ navigation, currentLocation, orderItems, setOrderItems }) => {
         coordinate={item.location}
         title={item.name}
         onPress={() => {
-          /* navigation.navigate('Restaurant', { */
-          /*   prevScreen: 'Maps', */
-          /*   orderItems: orderItems, */
-          /*   restaurant: item, */
-          /*   currentLocation: currentLocation, */
-          /* }) */
+          navigation.navigate('Restaurant', {
+            prevScreen: 'Maps',
+            currentLocation: currentLocation,
+            restaurant: item,
+            orderItems: orderItems,
+            setOrderItems: (orderItems) => setOrderItems(orderItems),
+            setSelectedTab: setSelectedTab,
+          })
         }}
       >
         <View

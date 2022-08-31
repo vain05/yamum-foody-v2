@@ -158,6 +158,7 @@ const Home = ({
       }}
       onPress={() => {
         navigation.navigate('Restaurant', {
+          prevScreen: 'Home',
           currentLocation: currentLocation,
           restaurant: item,
           orderItems: orderItems,

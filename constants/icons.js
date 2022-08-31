@@ -48,6 +48,7 @@ const map = require('../assets/icons/map.png')
 const delete_icon = require('../assets/icons/delete.png')
 const plus = require('../assets/icons/plus.png')
 const minus = require('../assets/icons/minus-sign.png')
+const focus = require('../assets/icons/focus.png')
 
 export default {
   coupon,
@@ -100,5 +101,5 @@ export default {
   map,
   delete_icon,
   plus,
-  minus
+  minus,
 }

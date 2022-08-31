@@ -488,7 +488,7 @@ const OrderDelivery = ({ route, navigation }) => {
                   ...FONTS.h3,
                 }}
               >
-                {duration1 + duration2} minutes
+                {Math.ceil(duration1 + duration2)} minutes
               </Text>
             </View>
           </View>

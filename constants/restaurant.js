@@ -80,7 +80,7 @@ export const restaurantData = [
     },
     courier: {
       avatar: images.avatar_1,
-      name: 'Ánh',
+      name: 'Trương Nhật Ánh',
     },
     menu: [
       {
@@ -133,7 +133,7 @@ export const restaurantData = [
     },
     courier: {
       avatar: images.avatar_2,
-      name: 'Phú',
+      name: 'Nguyễn Phong Phú',
     },
     menu: [
       {
@@ -195,7 +195,7 @@ export const restaurantData = [
     },
     courier: {
       avatar: images.avatar_3,
-      name: 'Khoa',
+      name: 'Nguyễn Đăng Khoa',
     },
     menu: [
       {
@@ -229,7 +229,7 @@ export const restaurantData = [
     },
     courier: {
       avatar: images.avatar_4,
-      name: 'Toàn',
+      name: 'Lâm Hiền Toàn',
     },
     menu: [
       {
@@ -263,7 +263,7 @@ export const restaurantData = [
     },
     courier: {
       avatar: images.avatar_4,
-      name: 'Cường',
+      name: 'Quang Thế Cường',
     },
     menu: [
       {
@@ -325,7 +325,7 @@ export const restaurantData = [
     },
     courier: {
       avatar: images.avatar_1,
-      name: 'Khuê',
+      name: 'Hoàng Thị Minh Khuê',
     },
     menu: [
       {

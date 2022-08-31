@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 
@@ -11,33 +11,35 @@ import {
   icons,
   dummyData,
   constants,
+  restaurantData,
 } from '../../constants'
 
 import { Header, IconButton } from '../../components'
+import { color } from 'react-native-reanimated'
 
 const OrderDelivery = ({ route, navigation }) => {
   const mapView = React.useRef()
 
-  const courierLocation = {
+  const [courierLocation, setCourierLocation] = useState({
     latitude: 9.6096156,
     longitude: 105.973507,
     /* latitude: 10.7701381, */
     /* longitude: 106.6832578, */
-  }
+  })
 
-  const [restaurant, setRestaurant] = React.useState(null)
-  const [currentLocation, setCurrentLocation] = React.useState(null)
-  const [region, setRegion] = React.useState(null)
+  const [restaurantId, setRestaurantId] = useState(route.params?.restaurant)
+  const [currentLocation, setCurrentLocation] = useState(
+    route.params?.currentLocation
+  )
+  const [region, setRegion] = useState(null)
 
-  const [duration1, setDuration1] = React.useState(0)
-  const [duration2, setDuration2] = React.useState(0)
-  const [isReady, setIsReady] = React.useState(false)
+  const [duration1, setDuration1] = useState(0)
+  const [duration2, setDuration2] = useState(0)
+  const [isReady, setIsReady] = useState(false)
 
-  React.useEffect(() => {
-    let { restaurant, currentLocation } = route.params
-
+  useEffect(() => {
     let fromLoc = courierLocation
-    let toLoc = restaurant.location
+    let toLoc = restaurantData[restaurantId].location
 
     let mapRegion = {
       latitude: (fromLoc.latitude + toLoc.latitude) / 2,
@@ -46,8 +48,6 @@ const OrderDelivery = ({ route, navigation }) => {
       longitudeDelta: Math.abs(fromLoc.longitude - toLoc.longitude) * 2,
     }
 
-    setRestaurant(restaurant)
-    setCurrentLocation(currentLocation)
     setRegion(mapRegion)
   }, [])
 
@@ -75,53 +75,63 @@ const OrderDelivery = ({ route, navigation }) => {
     mapView.current.animateToRegion(newRegion, 200)
   }
 
-  function renderHeader() {
+  function renderHeaderButton() {
     return (
-      <Header
-        title={'Your Orders Is Delivering'}
-        containerStyle={{
-          height: 50,
-          marginHorizontal: SIZES.padding,
-          marginTop: 40,
-        }}
-        leftComponent={
+      <>
+        <IconButton
+          icon={icons.back}
+          containerStyle={{
+            position: 'absolute',
+            top: SIZES.padding * 2,
+            left: SIZES.padding,
+            ...styles.buttonStyles,
+          }}
+          iconStyle={{
+            width: 20,
+            height: 20,
+            tintColor: COLORS.gray2,
+          }}
+          onPress={() => {
+            if (route.params?.prevScreen == 'Restaurant') {
+              route.params?.setSelectedTab(constants.screens.home)
+              navigation.navigate('MainLayout')
+            } else navigation.goBack()
+          }}
+        />
+
+        <View
+          style={{
+            position: 'absolute',
+            top: SIZES.padding * 2,
+            right: SIZES.padding,
+          }}
+        >
           <IconButton
-            icon={icons.back}
+            icon={icons.globe}
             containerStyle={{
-              height: 40,
-              width: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderWidth: 1,
-              borderRadius: SIZES.radius,
-              borderColor: COLORS.gray2,
+              ...styles.buttonStyles,
             }}
             iconStyle={{
               width: 20,
               height: 20,
               tintColor: COLORS.gray2,
             }}
-            onPress={() => {
-              route.params?.setSelectedTab(constants.screens.home)
-              navigation.navigate('MainLayout')
+          />
+
+          <IconButton
+            icon={icons.focus}
+            containerStyle={{
+              marginTop: SIZES.radius,
+              ...styles.buttonStyles,
+            }}
+            iconStyle={{
+              width: 20,
+              height: 20,
+              tintColor: COLORS.gray2,
             }}
           />
-        }
-        rightComponent={
-          <TouchableOpacity
-            style={{
-              borderRadius: SIZES.radius,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Image
-              source={dummyData?.myProfile?.profile_image}
-              style={{ width: 40, height: 40, borderRadius: SIZES.radius }}
-            />
-          </TouchableOpacity>
-        }
-      />
+        </View>
+      </>
     )
   }
 
@@ -129,7 +139,7 @@ const OrderDelivery = ({ route, navigation }) => {
     const courierRestaurantDirection = () => (
       <MapViewDirections
         origin={courierLocation}
-        destination={restaurant?.location}
+        destination={restaurantData[restaurantId].location}
         apikey={GOOGLE_API_KEY}
         strokeWidth={5}
         strokeColor={COLORS.primary}
@@ -154,7 +164,7 @@ const OrderDelivery = ({ route, navigation }) => {
 
     const restaurantUserDirection = () => (
       <MapViewDirections
-        origin={restaurant?.location}
+        origin={restaurantData[restaurantId].location}
         destination={currentLocation?.location}
         apikey={GOOGLE_API_KEY}
         strokeWidth={5}
@@ -179,7 +189,10 @@ const OrderDelivery = ({ route, navigation }) => {
     )
 
     const destinationMarker = () => (
-      <Marker coordinate={restaurant?.location} title={restaurant?.name}>
+      <Marker
+        coordinate={restaurantData[restaurantId].location}
+        title={restaurantData[restaurantId].name}
+      >
         <View
           style={{
             height: 40,
@@ -201,7 +214,7 @@ const OrderDelivery = ({ route, navigation }) => {
             }}
           >
             <Image
-              source={restaurant?.icon}
+              source={restaurantData[restaurantId].icon}
               style={{
                 width: 25,
                 height: 25,
@@ -227,7 +240,7 @@ const OrderDelivery = ({ route, navigation }) => {
     const userMarker = () => (
       <Marker coordinate={currentLocation?.location} title={'Your Location'}>
         <Image
-          source={icons.woman}
+          source={dummyData.myProfile.profile_image}
           style={{
             width: 40,
             height: 40,
@@ -250,53 +263,6 @@ const OrderDelivery = ({ route, navigation }) => {
           {courierMarker()}
           {userMarker()}
         </MapView>
-      </View>
-    )
-  }
-
-  function renderDestinationHeader() {
-    return (
-      <View
-        style={{
-          position: 'absolute',
-          top: 50,
-          left: 0,
-          right: 0,
-          height: 50,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: SIZES.width * 0.9,
-            paddingVertical: SIZES.padding,
-            paddingHorizontal: SIZES.padding * 2,
-            borderRadius: SIZES.radius,
-            backgroundColor: COLORS.white,
-          }}
-        >
-          <Image
-            source={icons.red_pin}
-            style={{
-              width: 30,
-              height: 30,
-              marginRight: SIZES.padding,
-            }}
-          />
-
-          <View style={{ flex: 1 }}>
-            <Text style={{ ...FONTS.body3 }}>
-              {currentLocation?.streetName}
-            </Text>
-          </View>
-
-          <Text style={{ ...FONTS.body3 }}>
-            {Math.ceil(duration1 + duration2)} mins
-          </Text>
-        </View>
       </View>
     )
   }
@@ -325,7 +291,7 @@ const OrderDelivery = ({ route, navigation }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {/* Avatar */}
             <Image
-              source={restaurant?.courier.avatar}
+              source={restaurantData[restaurantId].courier.avatar}
               style={{
                 width: 50,
                 height: 50,
@@ -341,7 +307,9 @@ const OrderDelivery = ({ route, navigation }) => {
                   justifyContent: 'space-between',
                 }}
               >
-                <Text style={{ ...FONTS.h4 }}>{restaurant?.courier.name}</Text>
+                <Text style={{ ...FONTS.h4 }}>
+                  {restaurantData[restaurantId].courier.name}
+                </Text>
                 <View style={{ flexDirection: 'row' }}>
                   <Image
                     source={icons.star}
@@ -352,13 +320,15 @@ const OrderDelivery = ({ route, navigation }) => {
                       marginRight: SIZES.padding,
                     }}
                   />
-                  <Text style={{ ...FONTS.body3 }}>{restaurant?.rating}</Text>
+                  <Text style={{ ...FONTS.body3 }}>
+                    {restaurantData[restaurantId].rating}
+                  </Text>
                 </View>
               </View>
 
               {/* Restaurant */}
               <Text style={{ color: COLORS.darkgray, ...FONTS.body4 }}>
-                {restaurant?.name}
+                {restaurantData[restaurantId].name}
               </Text>
             </View>
           </View>
@@ -431,6 +401,7 @@ const OrderDelivery = ({ route, navigation }) => {
         >
           <Text
             style={{
+              color: COLORS.gray2,
               height: 28,
               ...FONTS.body1,
             }}
@@ -453,6 +424,7 @@ const OrderDelivery = ({ route, navigation }) => {
         >
           <Text
             style={{
+              color: COLORS.gray2,
               height: 29,
               ...FONTS.body1,
             }}
@@ -464,7 +436,7 @@ const OrderDelivery = ({ route, navigation }) => {
     )
   }
 
-  function renderInfo() {
+  function renderDeliveryInfo() {
     return (
       <View
         style={{
@@ -482,7 +454,6 @@ const OrderDelivery = ({ route, navigation }) => {
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
             backgroundColor: COLORS.white,
-            height: 300,
           }}
         >
           <View
@@ -492,7 +463,7 @@ const OrderDelivery = ({ route, navigation }) => {
             }}
           >
             <Image
-              source={icons.fire}
+              source={icons.clock}
               style={{
                 width: 30,
                 height: 30,
@@ -517,7 +488,7 @@ const OrderDelivery = ({ route, navigation }) => {
                   ...FONTS.h3,
                 }}
               >
-                {duration} minutes
+                {duration1 + duration2} minutes
               </Text>
             </View>
           </View>
@@ -530,7 +501,7 @@ const OrderDelivery = ({ route, navigation }) => {
             }}
           >
             <Image
-              source={icons.woman}
+              source={icons.focus}
               style={{
                 width: 30,
                 height: 30,
@@ -563,6 +534,74 @@ const OrderDelivery = ({ route, navigation }) => {
               </Text>
             </View>
           </View>
+
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              height: 70,
+              marginTop: SIZES.padding,
+              borderRadius: SIZES.radius,
+              paddingHorizontal: SIZES.radius,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: COLORS.primary,
+            }}
+          >
+            <Image
+              source={restaurantData[restaurantId].courier.avatar}
+              style={{
+                width: 40,
+                height: 40,
+              }}
+            />
+
+            <View style={{ flex: 1, marginLeft: SIZES.radius }}>
+              <Text style={{ color: COLORS.white, ...FONTS.h3 }}>
+                {restaurantData[restaurantId].courier.name}
+              </Text>
+
+              <View style={{ flexDirection: 'row' }}>
+                <Image
+                  source={icons.star}
+                  style={{
+                    height: 15,
+                    width: 15,
+                    tintColor: COLORS.lightOrange2,
+                    marginRight: 5,
+                  }}
+                />
+
+                <Text style={{ color: COLORS.white, ...FONTS.body4 }}>
+                  {restaurantData[restaurantId].rating}
+                  {' - '}
+                  {restaurantData[restaurantId].name}
+                  {"'s Courier"}
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                height: 40,
+                width: 40,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderRadius: 5,
+                borderColor: COLORS.white,
+                backgroundColor: COLORS.transparentPrimary,
+              }}
+            >
+              <Image
+                source={icons.call_icon}
+                style={{
+                  width: 30,
+                  height: 30,
+                  tintColor: COLORS.white,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -570,10 +609,25 @@ const OrderDelivery = ({ route, navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {renderHeader()}
       {renderMap()}
+      {renderHeaderButton()}
+      {renderButtons()}
+      {renderDeliveryInfo()}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  buttonStyles: {
+    width: 40,
+    height: 40,
+    borderRadius: SIZES.radius,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.gray2,
+    backgroundColor: COLORS.white,
+  },
+})
 
 export default OrderDelivery

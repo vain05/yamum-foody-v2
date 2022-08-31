@@ -296,9 +296,10 @@ const MyCart = ({
             }}
             onPress={() => {
               navigation.navigate('OrderDelivery', {
-                restaurant: restaurant,
+                prevScreen: 'Cart',
+                restaurant: restaurant.restaurantId - 1,
                 currentLocation: currentLocation,
-                setSelectedTab: setSelectedTab
+                setSelectedTab: setSelectedTab,
               })
             }}
           >

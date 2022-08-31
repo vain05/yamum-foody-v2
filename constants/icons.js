@@ -49,8 +49,13 @@ const delete_icon = require('../assets/icons/delete.png')
 const plus = require('../assets/icons/plus.png')
 const minus = require('../assets/icons/minus-sign.png')
 const focus = require('../assets/icons/focus.png')
+const globe = require('../assets/icons/globe.png')
+const clock = require('../assets/icons/clock.png')
+const call_icon = require('../assets/icons/call.png')
 
 export default {
+  call_icon,
+  clock,
   coupon,
   cross,
   cancel,
@@ -88,6 +93,7 @@ export default {
   fries,
   hamburger,
   hotdog,
+  globe,
   ice_cream,
   man,
   noodle,

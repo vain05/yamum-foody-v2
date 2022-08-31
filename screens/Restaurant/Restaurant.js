@@ -451,7 +451,8 @@ const Restaurant = ({ route, navigation }) => {
                     ?.length > 0
                 ) {
                   navigation.navigate('OrderDelivery', {
-                    restaurant: restaurant,
+                    prevScreen: 'Restaurant',
+                    restaurant: restaurant.id - 1,
                     currentLocation: currentLocation,
                     setSelectedTab: route.params.setSelectedTab,
                   })

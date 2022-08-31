@@ -152,8 +152,8 @@ const Maps = ({ navigation, currentLocation, orderItems, setOrderItems }) => {
       <View
         style={{
           position: 'absolute',
-          bottom: SIZES.height * 0.35,
-          right: SIZES.padding * 2,
+          bottom: SIZES.height * 0.4,
+          right: SIZES.padding * 1.4,
           width: 60,
           height: 130,
           justifyContent: 'space-between',
@@ -171,7 +171,15 @@ const Maps = ({ navigation, currentLocation, orderItems, setOrderItems }) => {
           }}
           onPress={() => zoomIn()}
         >
-          <Text style={{ ...FONTS.body1 }}>+</Text>
+          <Text
+            style={{
+              color: COLORS.gray2,
+              height: 28,
+              ...FONTS.body1,
+            }}
+          >
+            +
+          </Text>
         </TouchableOpacity>
 
         {/* Zoom Out */}
@@ -186,7 +194,15 @@ const Maps = ({ navigation, currentLocation, orderItems, setOrderItems }) => {
           }}
           onPress={() => zoomOut()}
         >
-          <Text style={{ ...FONTS.body1 }}>-</Text>
+          <Text
+            style={{
+              color: COLORS.gray2,
+              height: 29,
+              ...FONTS.body1,
+            }}
+          >
+            -
+          </Text>
         </TouchableOpacity>
       </View>
     )
